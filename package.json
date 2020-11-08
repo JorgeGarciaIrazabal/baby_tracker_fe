@@ -7,7 +7,8 @@
     "ng": "ng",
     "start": "node server.js",
     "build": "ng build --prod --outputPath=dist",
-    "heroku-postbuild": "ng build --prod --aot --outputPath=dist",
+    "heroku-postbuild": "npm install",
+    "postinstall": "ng build --aot -prod",
     "generate_api": "openapi-generator-cli generate -g typescript-fetch -i ../../baby_tracker_be/src/openapi.json -o ./src/openapi",
     "help": "ng build --help",
     "test": "ng test",
@@ -68,7 +69,7 @@
   },
   "description": "An Ionic project",
   "engines": {
-    "node": "6.11.0",
+    "node": "14.15.0",
     "npm": "3.10.10"
   }
 }
