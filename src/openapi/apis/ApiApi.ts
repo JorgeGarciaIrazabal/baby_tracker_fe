@@ -39,7 +39,7 @@ export interface CreateParentParentPostRequest {
 }
 
 export interface DeleteFeedFeedIdDeleteRequest {
-    id: AnyType;
+    id: number;
 }
 
 export interface GetBabyFeedsBabyBabyIdFeedGetRequest {
