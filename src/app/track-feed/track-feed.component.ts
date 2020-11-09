@@ -22,7 +22,7 @@ export class TrackFeedComponent implements OnInit {
     }
 
     async ngOnInit() {
-        this.feeds = await this.apiService.api.getBabyFeedsBabyBabyIdFeedGet({babyId: this.baby.id})
+        await this.refreshFeedings()
     }
 
     clearEditingFeed() {
@@ -36,9 +36,9 @@ export class TrackFeedComponent implements OnInit {
         if (feed.id === -1) {
             await this.createFeed(feed)
         } else {
-            await  this.updateFeed(feed)
+            await this.updateFeed(feed)
         }
-        this.feeds = await this.apiService.api.getBabyFeedsBabyBabyIdFeedGet({babyId: this.baby.id})
+        await this.refreshFeedings()
         this.editingFeed = null
     }
 
@@ -88,7 +88,20 @@ export class TrackFeedComponent implements OnInit {
     async endFeeding(feed: Feed) {
         feed.endAt = this.dtt.dateToUtc(new Date())
         await this.apiService.api.updateFeedFeedPut({feed: feed})
+        await this.refreshFeedings()
+        this.editingFeed = null
+    }
+
+    async refreshFeedings() {
         this.feeds = await this.apiService.api.getBabyFeedsBabyBabyIdFeedGet({babyId: this.baby.id})
+        this.feeds = this.feeds.sort((f1, f2) => {
+            return f1.startAt > f2.endAt ? 1 : -1
+        })
+    }
+
+    async onRemove(feed: Feed) {
+        await this.apiService.api.deleteFeedFeedIdDelete({id: feed.id})
+        await this.refreshFeedings()
         this.editingFeed = null
     }
 }

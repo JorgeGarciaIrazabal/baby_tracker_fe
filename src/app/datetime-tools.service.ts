@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 // @ts-ignore
 import moment from "moment";
 import {Feed} from "../openapi/models";
@@ -36,5 +36,9 @@ export class DatetimeToolsService {
 
   dateToUtc(date) {
     return moment(date).utc().toDate()
+  }
+
+  humanizeDate(date) {
+    return moment(date).format("MMM Do hh:mm A")
   }
 }

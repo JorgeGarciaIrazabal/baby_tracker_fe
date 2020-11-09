@@ -13,6 +13,7 @@ import {DatetimeToolsService} from "../datetime-tools.service";
 export class FeedDialogComponent implements OnInit {
   @Input() public feed: Feed
   @Input() public onCancel: Function
+  @Input() public onRemove: Function
   @Input() public onOk: Function
   @Input() public baby: Baby
 
@@ -29,11 +30,13 @@ export class FeedDialogComponent implements OnInit {
 
   ngOnInit() {
     if (this.feed !== null) {
+      let startAt = moment.utc(this.feed.startAt).toDate()
+      let endAt = this.feed.endAt ? moment.utc(this.feed.endAt).toDate() : null
       this.feedForm.setValue({
-        startDate: this.feed.startAt,
-        startTime:  this.dtt.datetimeToStrTime(this.feed.startAt),
-        endDate: this.feed.endAt ? this.feed.endAt : null,
-        endTime: this.feed.endAt ? this.dtt.datetimeToStrTime(this.feed.endAt) : null,
+        startDate: startAt,
+        startTime: this.dtt.datetimeToStrTime(startAt),
+        endDate: endAt ? endAt : null,
+        endTime: endAt ? this.dtt.datetimeToStrTime(endAt) : null,
         amount: this.feed.amount,
       })
     }
@@ -49,5 +52,9 @@ export class FeedDialogComponent implements OnInit {
     // this.feed.babyId = this.baby.id
     this.feed.type = FeedTypes.NUMBER_1
     this.onOk(this.feed)
+  }
+
+  onRemoveClicked() {
+    this.onRemove(this.feed)
   }
 }

@@ -8,7 +8,7 @@
     "start": "node server.js",
     "build": "ng build --prod --outputPath=dist",
     "heroku-postbuild": "ng build --aot --prod  --outputPath=dist",
-    "generate_api": "openapi-generator-cli generate -g typescript-fetch -i ../../baby_tracker_be/src/openapi.json -o ./src/openapi",
+    "generate_api": "openapi-generator-cli generate -g typescript-fetch -i ../baby_tracker_be/src/openapi.json -o ./src/openapi",
     "help": "ng build --help",
     "test": "ng test",
     "lint": "ng lint",

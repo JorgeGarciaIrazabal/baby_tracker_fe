@@ -21,9 +21,6 @@ import {
     Feed,
     FeedFromJSON,
     FeedToJSON,
-    HTTPValidationError,
-    HTTPValidationErrorFromJSON,
-    HTTPValidationErrorToJSON,
     Parent,
     ParentFromJSON,
     ParentToJSON,
@@ -39,6 +36,10 @@ export interface CreateFeedFeedPostRequest {
 
 export interface CreateParentParentPostRequest {
     parent: Parent;
+}
+
+export interface DeleteFeedFeedIdDeleteRequest {
+    id: AnyType;
 }
 
 export interface GetBabyFeedsBabyBabyIdFeedGetRequest {
@@ -182,11 +183,41 @@ export class ApiApi extends runtime.BaseAPI {
     }
 
     /**
+     * Delete Feed
+     */
+    async deleteFeedFeedIdDeleteRaw(requestParameters: DeleteFeedFeedIdDeleteRequest): Promise<runtime.ApiResponse<Feed>> {
+        if (requestParameters.id === null || requestParameters.id === undefined) {
+            throw new runtime.RequiredError('id', 'Required parameter requestParameters.id was null or undefined when calling deleteFeedFeedIdDelete.');
+        }
+
+        const queryParameters: runtime.HTTPQuery = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/feed/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
+            method: 'DELETE',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => FeedFromJSON(jsonValue));
+    }
+
+    /**
+     * Delete Feed
+     */
+    async deleteFeedFeedIdDelete(requestParameters: DeleteFeedFeedIdDeleteRequest): Promise<Feed> {
+        const response = await this.deleteFeedFeedIdDeleteRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
      * Get Baby Feeds
      */
     async getBabyFeedsBabyBabyIdFeedGetRaw(requestParameters: GetBabyFeedsBabyBabyIdFeedGetRequest): Promise<runtime.ApiResponse<Array<Feed>>> {
         if (requestParameters.babyId === null || requestParameters.babyId === undefined) {
-            throw new runtime.RequiredError('babyId','Required parameter requestParameters.babyId was null or undefined when calling getBabyFeedsBabyBabyIdFeedGet.');
+            throw new runtime.RequiredError('babyId', 'Required parameter requestParameters.babyId was null or undefined when calling getBabyFeedsBabyBabyIdFeedGet.');
         }
 
         const queryParameters: runtime.HTTPQuery = {};
