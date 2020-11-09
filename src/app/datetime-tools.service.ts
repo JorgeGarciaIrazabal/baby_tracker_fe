@@ -12,7 +12,13 @@ export class DatetimeToolsService {
 
   datetimeUIToUtc(date: Date, time: string) {
     let hour = parseInt(time.split(" ")[0].split(":")[0])
-    hour = time.split(" ")[1] == "PM" ? 12 + hour : hour
+    let mode = time.split(" ")[1]
+    if (hour != 12) {
+      hour = mode == "PM" ? 12 + hour : hour
+    } else {
+      hour = mode == "AM" ? 0 : 12
+    }
+
     let min = parseInt(time.split(" ")[0].split(":")[1])
     let momentDate = moment(date)
     momentDate.hours(hour)

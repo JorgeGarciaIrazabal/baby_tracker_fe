@@ -10,6 +10,8 @@
 }
 
 .row-padding {
+  display: flex;
+  flex-wrap: wrap;
   padding: 15px 22px;
 }
 

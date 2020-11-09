@@ -1,5 +1,5 @@
 <mat-list>
-    <div class="row row-padding" *ngFor="let feed of feeds">
+    <div class="row-padding" *ngFor="let feed of feeds">
         <div *ngIf="feed.id===editingFeed">
             <app-feed-dialog
                 [onCancel]="clearEditingFeed.bind(this)"

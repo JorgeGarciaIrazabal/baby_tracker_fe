@@ -28,7 +28,7 @@ export class FrameComponent {
 
     constructor(private breakpointObserver: BreakpointObserver, public nav: NavController,
                 private storage: Storage, private apiService: ApiService, public dialog: MatDialog,
-                public toastCtrl: ToastController,) {
+                public toastCtrl: ToastController) {
     }
 
     async ngOnInit() {
@@ -101,5 +101,9 @@ export class FrameComponent {
             !this.selectingNewParent &&
             (this.baby.fatherId == null ||
                 this.baby.motherId == null)
+    }
+
+    async doRefresh() {
+        location.reload()
     }
 }
