@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {FormBuilder, FormControl, FormGroupDirective, NgForm, Validators} from '@angular/forms';
+import {FormBuilder, Validators} from '@angular/forms';
 import {Parent} from "../../openapi/models";
 import {NavController, ToastController} from "@ionic/angular";
 import {ApiService} from "../api.service";
@@ -49,6 +49,7 @@ export class TestLoginComponent {
             }
             let t = await this.toastCtrl.create({
                 message: 'Successfully logged in',
+                duration: 1000,
             })
             await this.storage.set("self", loggedParent)
             await this.nav.navigateRoot("");
@@ -56,6 +57,7 @@ export class TestLoginComponent {
         } catch (e) {
             let t = await this.toastCtrl.create({
                 message: 'failed logging in :(',
+                duration: 1000,
             })
             await t.present()
         }
