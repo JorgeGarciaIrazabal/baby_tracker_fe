@@ -1,4 +1,5 @@
 <mat-list>
+    <span class="mat-body-strong last-feeding-padding">{{getLastFeedingTime()}}</span>
     <div class="row-padding" *ngFor="let feed of feeds">
         <div *ngIf="feed.id===editingFeed">
             <app-feed-dialog

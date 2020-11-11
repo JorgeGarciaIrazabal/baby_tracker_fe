@@ -78,11 +78,11 @@
     ],
     "quotemark": [
       true,
-      "single"
+      "double"
     ],
     "semicolon": {
       "options": [
-        "always"
+        "never"
       ]
     },
     "space-before-function-paren": {

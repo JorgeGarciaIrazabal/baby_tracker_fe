@@ -1,14 +1,16 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {Baby, Feed, FeedTypes, Parent} from "../../openapi/models";
-import {ApiService} from "../api.service";
-import {MatDialog} from "@angular/material/dialog";
-import {ToastController} from "@ionic/angular";
-import {DatetimeToolsService} from "../datetime-tools.service";
+import {Component, Input, OnInit} from "@angular/core"
+import {Baby, Feed, FeedTypes, Parent} from "../../openapi/models"
+import {ApiService} from "../api.service"
+import {MatDialog} from "@angular/material/dialog"
+import {ToastController} from "@ionic/angular"
+import {DatetimeToolsService} from "../datetime-tools.service"
+// @ts-ignore
+import moment from "moment"
 
 @Component({
-    selector: 'app-track-feed',
-    templateUrl: './track-feed.component.html',
-    styleUrls: ['./track-feed.component.scss'],
+    selector: "app-track-feed",
+    templateUrl: "./track-feed.component.html",
+    styleUrls: ["./track-feed.component.scss"],
 })
 export class TrackFeedComponent implements OnInit {
 
@@ -32,6 +34,13 @@ export class TrackFeedComponent implements OnInit {
         })
     }
 
+    getLastFeedingTime() {
+        if (this.feeds && this.feeds.length > 0) {
+            return `last feeding ${moment(this.feeds[0].startAt).fromNow()}`
+        }
+        return "touch the + button to add feedings"
+    }
+
     async feedEvent(feed) {
         if (feed.id === -1) {
             await this.createFeed(feed)
@@ -48,7 +57,7 @@ export class TrackFeedComponent implements OnInit {
             if (feed.endAt === null) {
                 delete feed.endAt
             }
-            await this.apiService.api.createFeedFeedPost({feed: feed})
+            await this.apiService.api.createFeedFeedPost({feed})
         } catch (e) {
             await (await this.toastCtrl.create({
                 message: "failed creating feed",
@@ -59,7 +68,7 @@ export class TrackFeedComponent implements OnInit {
 
     async updateFeed(feed) {
         try {
-            await this.apiService.api.updateFeedFeedPut({feed: feed})
+            await this.apiService.api.updateFeedFeedPut({feed})
         } catch (e) {
             await (await this.toastCtrl.create({
                 message: "failed updating feed",
@@ -69,14 +78,14 @@ export class TrackFeedComponent implements OnInit {
     }
 
     addEmptyFeed() {
-        let baby = this.baby
-        let newFeed = new class implements Feed {
-            amount: number = 100;
-            babyId: number = baby.id;
-            endAt: Date = null;
-            id: number = -1;
-            startAt: Date = new Date();
-            type: FeedTypes = FeedTypes.NUMBER_1;
+        const baby = this.baby
+        const newFeed = new class implements Feed {
+            amount = 100
+            babyId: number = baby.id
+            endAt: Date = null
+            id = -1
+            startAt: Date = new Date()
+            type: FeedTypes = FeedTypes.NUMBER_1
         }
         this.feeds = [
             newFeed,
@@ -87,7 +96,7 @@ export class TrackFeedComponent implements OnInit {
 
     async endFeeding(feed: Feed) {
         feed.endAt = this.dtt.dateToUtc(new Date())
-        await this.apiService.api.updateFeedFeedPut({feed: feed})
+        await this.apiService.api.updateFeedFeedPut({feed})
         await this.refreshFeedings()
         this.editingFeed = null
     }
@@ -95,7 +104,7 @@ export class TrackFeedComponent implements OnInit {
     async refreshFeedings() {
         this.feeds = await this.apiService.api.getBabyFeedsBabyBabyIdFeedGet({babyId: this.baby.id})
         this.feeds = this.feeds.sort((f1, f2) => {
-            return f1.startAt > f2.endAt ? 1 : -1
+            return f1.startAt < f2.endAt ? 1 : -1
         })
     }
 
