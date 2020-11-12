@@ -11,8 +11,7 @@ export class ApiService {
 
     constructor() {
         console.log(environment)
-        console.log("HEYYY THIS IS NEW")
-        const basePath = environment.production ? "http://b88a09688f3577649.temporary.link:9001" : "http://localhost:9001"
+        const basePath = environment.production ? "https://babytrackerbe.herokuapp.com" : "http://localhost:9001"
         this.api = new ApiApi(new Configuration({
                     basePath,
                 })
