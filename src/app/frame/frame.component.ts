@@ -1,18 +1,18 @@
-import {Component} from '@angular/core';
-import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
-import {Observable} from 'rxjs';
-import {map, shareReplay} from 'rxjs/operators';
-import {NavController, ToastController} from "@ionic/angular";
-import {ApiService} from "../api.service";
-import {Storage} from "@ionic/storage";
-import {Baby, Parent} from "../../openapi/models";
-import {MatDialog} from "@angular/material/dialog";
-import {BabyDialogComponent} from "../baby-dialog/baby-dialog.component";
+import {Component} from "@angular/core"
+import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout"
+import {Observable} from "rxjs"
+import {map, shareReplay} from "rxjs/operators"
+import {NavController, ToastController} from "@ionic/angular"
+import {ApiService} from "../api.service"
+import {Storage} from "@ionic/storage"
+import {Baby, Parent} from "../../openapi/models"
+import {MatDialog} from "@angular/material/dialog"
+import {BabyDialogComponent} from "../baby-dialog/baby-dialog.component"
 
 @Component({
-    selector: 'app-frame',
-    templateUrl: './frame.component.html',
-    styleUrls: ['./frame.component.css']
+    selector: "app-frame",
+    templateUrl: "./frame.component.html",
+    styleUrls: ["./frame.component.scss"]
 })
 export class FrameComponent {
     public baby: Baby = null
@@ -22,9 +22,9 @@ export class FrameComponent {
         .pipe(
             map(result => result.matches),
             shareReplay()
-        );
-    public selectingNewParent: boolean;
-    public newParentsEmail: string;
+        )
+    public selectingNewParent: boolean
+    public newParentsEmail: string
 
     constructor(private breakpointObserver: BreakpointObserver, public nav: NavController,
                 private storage: Storage, private apiService: ApiService, public dialog: MatDialog,
@@ -47,7 +47,7 @@ export class FrameComponent {
     async logout() {
         await this.storage.ready()
         await this.storage.remove("self")
-        await this.nav.navigateRoot("login");
+        await this.nav.navigateRoot("login")
     }
 
     async removeBaby() {
@@ -56,25 +56,25 @@ export class FrameComponent {
             parentId: this.parent.id
         })
         this.baby = new class implements Baby {
-            birthDate: Date;
-            fatherId: number;
-            id: number;
-            motherId: number;
-            name: string;
+            birthDate: Date
+            fatherId: number
+            id: number
+            motherId: number
+            name: string
         }
     }
 
     async openDialog() {
         const dialogRef = this.dialog.open(BabyDialogComponent, {
-            width: '250px',
+            width: "250px",
             data: null
-        });
+        })
 
         dialogRef.afterClosed().subscribe(async result => {
-            console.log('The dialog was closed');
-            this.baby = result;
+            console.log("The dialog was closed")
+            this.baby = result
             this.baby = await this.apiService.api.createBabyBabyPost({baby: this.baby})
-        });
+        })
     }
 
     setSelectingNewParent(value: boolean) {

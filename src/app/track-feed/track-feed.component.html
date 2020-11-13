@@ -1,25 +1,32 @@
 <mat-list>
-    <span class="mat-body-strong last-feeding-padding">{{getLastFeedingTime()}}</span>
-    <div class="row-padding" *ngFor="let feed of feeds">
-        <div *ngIf="feed.id===editingFeed">
-            <app-feed-dialog
-                [onCancel]="clearEditingFeed.bind(this)"
-                [onOk]="feedEvent.bind(this)"
-                [onRemove]="onRemove.bind(this)"
-                [feed]="feed"
-                [baby]="baby"
-            ></app-feed-dialog>
+    <div class="mat-body-strong last-feeding-padding">{{getLastFeedingTime()}}</div>
+    <div *ngFor="let feed of feeds;let i=index;">
+        <div *ngIf="i === 0 || this.dtt.humanizeDate(feed.startAt) !==  this.dtt.humanizeDate(feeds[i - 1].startAt)"
+             class="date-group"
+        >
+            {{this.dtt.humanizeDate(feed.startAt)}}
         </div>
-        <div *ngIf="feed.id!==editingFeed" (click)="editingFeed=feed.id" class="row-div">
-            <div *ngIf="feed.endAt !== null" mat-line>{{dtt.humanizeDate(feed.startAt)}} - {{dtt.dateDiffMin(feed)}}
-                min
+        <div class="row-padding" >
+            <div *ngIf="feed.id===editingFeed">
+                <app-feed-dialog
+                    [onCancel]="clearEditingFeed.bind(this)"
+                    [onOk]="feedEvent.bind(this)"
+                    [onRemove]="onRemove.bind(this)"
+                    [feed]="feed"
+                    [baby]="baby"
+                ></app-feed-dialog>
             </div>
-            <div *ngIf="feed.endAt === null" mat-line>{{dtt.humanizeDate(feed.startAt)}}</div>
-            <div mat-line> {{feed.amount}} ml</div>
+            <div *ngIf="feed.id!==editingFeed" (click)="editingFeed=feed.id" class="row-div">
+                <div *ngIf="feed.endAt !== null" mat-line>{{dtt.humanizeTime(feed.startAt)}} - {{dtt.dateDiffMin(feed)}}
+                    min
+                </div>
+                <div *ngIf="feed.endAt === null" mat-line>{{dtt.humanizeTime(feed.startAt)}}</div>
+                <div mat-line> {{feed.amount}} ml</div>
+            </div>
+            <button *ngIf="feed.endAt == null && feed.id!==editingFeed" class="end-button"
+                    mat-stroked-button (click)="endFeeding(feed)">End
+            </button>
         </div>
-        <button *ngIf="feed.endAt == null && feed.id!==editingFeed" class="end-button"
-                mat-raised-button color="warn" (click)="endFeeding(feed)">End
-        </button>
     </div>
     <button mat-fab color="primary" aria-label="Example icon button with a home icon" class="floatingbr"
             (click)="addEmptyFeed()" [disabled]="editingFeed !== null">

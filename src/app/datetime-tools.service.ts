@@ -1,10 +1,10 @@
-import {Injectable} from '@angular/core';
+import {Injectable} from "@angular/core"
 // @ts-ignore
-import moment from "moment";
-import {Feed} from "../openapi/models";
+import moment from "moment"
+import {Feed} from "../openapi/models"
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class DatetimeToolsService {
 
@@ -12,22 +12,22 @@ export class DatetimeToolsService {
 
   datetimeUIToUtc(date: Date, time: string) {
     let hour = parseInt(time.split(" ")[0].split(":")[0])
-    let mode = time.split(" ")[1]
+    const mode = time.split(" ")[1]
     if (hour != 12) {
       hour = mode == "PM" ? 12 + hour : hour
     } else {
       hour = mode == "AM" ? 0 : 12
     }
 
-    let min = parseInt(time.split(" ")[0].split(":")[1])
-    let momentDate = moment(date)
+    const min = parseInt(time.split(" ")[0].split(":")[1])
+    const momentDate = moment(date)
     momentDate.hours(hour)
     momentDate.minutes(min)
     return momentDate.utc().toDate()
   }
 
   datetimeToStrTime(date: Date) {
-    let momentDate = moment(date)
+    const momentDate = moment(date)
     return momentDate.format("hh:mm a").toUpperCase()
   }
 
@@ -36,7 +36,7 @@ export class DatetimeToolsService {
       return 0
     }
     // @ts-ignore
-    let diffMs: number = (feed.endAt - feed.startAt); // milliseconds
+    const diffMs: number = (feed.endAt - feed.startAt) // milliseconds
     return Math.floor(diffMs / 60000)
   }
 
@@ -44,7 +44,15 @@ export class DatetimeToolsService {
     return moment(date).utc().toDate()
   }
 
-  humanizeDate(date) {
+  humanizeDateTime(date) {
     return moment(date).format("MMM Do hh:mm A")
+  }
+
+  humanizeTime(date) {
+    return moment(date).format("hh:mm A")
+  }
+
+  humanizeDate(date) {
+    return moment(date).format("dddd, MMM Do")
   }
 }

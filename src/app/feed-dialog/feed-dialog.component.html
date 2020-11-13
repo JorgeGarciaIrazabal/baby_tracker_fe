@@ -55,6 +55,8 @@
 
         <mat-card-actions class="ion-padding-start">
             <div class="simple-row">
+                <button mat-stroked-button (click)="setEndNow()">End Now</button>
+                <span class="spacer"></span>
                 <button mat-raised-button (click)="onCancel()">Cancel</button>
                 <button mat-raised-button color="primary" [disabled]="feedForm.status==='INVALID'" (click)="onSubmit()">
                     Ok

@@ -18,6 +18,7 @@ export class TrackFeedComponent implements OnInit {
     @Input() baby: Baby
     public feeds: Array<Feed>
     public editingFeed: number = null
+    public self = this
 
     constructor(private apiService: ApiService, public dialog: MatDialog,
                 public toastCtrl: ToastController, public dtt: DatetimeToolsService) {
@@ -27,7 +28,7 @@ export class TrackFeedComponent implements OnInit {
         await this.refreshFeedings()
     }
 
-    clearEditingFeed() {
+    clearEditingFeed = () => {
         this.editingFeed = null
         this.feeds = this.feeds.filter((feed) => {
             return feed.id !== -1
@@ -36,7 +37,7 @@ export class TrackFeedComponent implements OnInit {
 
     getLastFeedingTime() {
         if (this.feeds && this.feeds.length > 0) {
-            return `last feeding ${moment(this.feeds[0].startAt).fromNow()}`
+            return `Last feeding ${moment(this.feeds[0].startAt).fromNow()}`
         }
         return "touch the + button to add feedings"
     }
@@ -79,8 +80,9 @@ export class TrackFeedComponent implements OnInit {
 
     addEmptyFeed() {
         const baby = this.baby
+        // tslint:disable-next-line:new-parens
         const newFeed = new class implements Feed {
-            amount = 100
+            amount = null
             babyId: number = baby.id
             endAt: Date = null
             id = -1
@@ -102,11 +104,12 @@ export class TrackFeedComponent implements OnInit {
     }
 
     async refreshFeedings() {
-        this.feeds = await this.apiService.api.getBabyFeedsBabyBabyIdFeedGet({babyId: this.baby.id})
-        this.feeds = this.feeds.sort((f1, f2) => {
-            return f1.startAt < f2.endAt ? 1 : -1
+        const feeds = await this.apiService.api.getBabyFeedsBabyBabyIdFeedGet({babyId: this.baby.id})
+        this.feeds = feeds.sort((f1, f2) => {
+            return f1.startAt < f2.startAt ? 1 : -1
         })
     }
+
 
     async onRemove(feed: Feed) {
         await this.apiService.api.deleteFeedFeedIdDelete({id: feed.id})

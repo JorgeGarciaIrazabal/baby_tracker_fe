@@ -1,15 +1,15 @@
-import {Component} from '@angular/core';
-import {FormBuilder, Validators} from '@angular/forms';
-import {Parent} from "../../openapi/models";
-import {NavController, ToastController} from "@ionic/angular";
-import {ApiService} from "../api.service";
-import {Storage} from "@ionic/storage";
+import {Component} from "@angular/core"
+import {FormBuilder, Validators} from "@angular/forms"
+import {Parent} from "../../openapi/models"
+import {NavController, ToastController} from "@ionic/angular"
+import {ApiService} from "../api.service"
+import {Storage} from "@ionic/storage"
 
 
 @Component({
-    selector: 'app-test-login',
-    templateUrl: './test-login.component.html',
-    styleUrls: ['./test-login.component.css']
+    selector: "app-test-login",
+    templateUrl: "./test-login.component.html",
+    styleUrls: ["./test-login.component.scss"]
 })
 export class TestLoginComponent {
     parentForm = this.fb.group({
@@ -17,7 +17,7 @@ export class TestLoginComponent {
         email: [null, Validators.required],
         password: [null, Validators.required],
         signingUp: [false]
-    });
+    })
     public signingUp = false
 
     constructor(private fb: FormBuilder,
@@ -29,9 +29,9 @@ export class TestLoginComponent {
 
     async ngOnInit() {
         await this.storage.ready()
-        let loggedParent =  await this.storage.get("self")
+        const loggedParent =  await this.storage.get("self")
         if (loggedParent !== null) {
-            await this.nav.navigateRoot("tabs/timeline");
+            await this.nav.navigateRoot("tabs/timeline")
         }
     }
 
@@ -45,18 +45,18 @@ export class TestLoginComponent {
                     password: parent.password
                 })
             } else {
-                loggedParent = await this.apiService.api.createParentParentPost({parent: parent})
+                loggedParent = await this.apiService.api.createParentParentPost({parent})
             }
-            let t = await this.toastCtrl.create({
-                message: 'Successfully logged in',
+            const t = await this.toastCtrl.create({
+                message: "Successfully logged in",
                 duration: 1000,
             })
             await this.storage.set("self", loggedParent)
-            await this.nav.navigateRoot("");
+            await this.nav.navigateRoot("")
             await t.present()
         } catch (e) {
-            let t = await this.toastCtrl.create({
-                message: 'failed logging in :(',
+            const t = await this.toastCtrl.create({
+                message: "failed logging in :(",
                 duration: 1000,
             })
             await t.present()

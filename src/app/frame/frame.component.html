@@ -33,7 +33,7 @@
             </div>
         </mat-nav-list>
     </mat-sidenav>
-    <mat-sidenav-content>
+    <mat-sidenav-content class="main">
         <mat-toolbar color="primary">
             <button
                 type="button"
@@ -60,7 +60,12 @@
                 </button>
             </div>
         </div>
-        <app-track-tabs *ngIf="baby !== null" [baby]="baby"></app-track-tabs>
+        <div layout="column" flex>
+            <app-track-tabs
+                *ngIf="baby !== null" [baby]="baby"
+                class="main-tabs">
+            </app-track-tabs>
+        </div>
 
     </mat-sidenav-content>
 </mat-sidenav-container>

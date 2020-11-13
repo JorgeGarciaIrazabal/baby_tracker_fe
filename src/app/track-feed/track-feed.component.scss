@@ -5,20 +5,31 @@
 }
 
 .end-button {
-  right: 12px;
-  position: absolute;
+  flex: 0;
 }
 
 .row-padding {
   display: flex;
+  flex-direction: row;
   flex-wrap: wrap;
-  padding: 15px 22px;
+  padding: 8px 22px 15px 22px;
 }
 
 .row-div {
+  flex: 1;
   width: 100%;
 }
 
+.date-group {
+  width: 100%;
+  font-weight: bold;
+  background: #673ab75c;
+  padding: 3px 8px;
+}
+
 .last-feeding-padding {
-  padding: 7px 22px;
+  width: 100%;
+  font-weight: bold;
+  background: #3ccdf870;
+  padding: 3px 8px;
 }
