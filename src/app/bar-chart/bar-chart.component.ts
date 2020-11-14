@@ -1,6 +1,7 @@
 import {Component, OnInit, Input, ViewChild, ElementRef, OnChanges} from "@angular/core"
 import * as d3 from "d3"
 import {Data} from "../models"
+import { debounce } from "throttle-debounce"
 
 @Component({
     selector: "app-bar-chart",
@@ -8,6 +9,9 @@ import {Data} from "../models"
     styleUrls: ["./bar-chart.component.scss"]
 })
 export class BarChartComponent implements OnInit, OnChanges {
+
+    constructor() {
+    }
     @ViewChild("barChart")
     private chartContainer: ElementRef
 
@@ -16,9 +20,6 @@ export class BarChartComponent implements OnInit, OnChanges {
 
     margin = {top: 20, right: 20, bottom: 30, left: 40}
 
-    constructor() {
-    }
-
     ngOnInit() {
     }
 
@@ -26,11 +27,13 @@ export class BarChartComponent implements OnInit, OnChanges {
         if (!this.data) {
             return
         }
-
-        this.createChart()
+        console.log("on change")
+        setTimeout(this.createChart.bind(this), 100)
+        // this.createChart()
     }
 
     private createChart(): void {
+        console.log("creating Chart")
         d3.select("svg").remove()
 
         const element = this.chartContainer.nativeElement

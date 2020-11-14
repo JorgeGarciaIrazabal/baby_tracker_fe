@@ -1,19 +1,19 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing"
 import { IonicModule } from "@ionic/angular"
 
-import { FeedDialogComponent } from "./feed-dialog.component"
+import { AnalyticsFeedComponent } from "./analytics-feed.component"
 
-describe("FeedDialogComponent", () => {
-  let component: FeedDialogComponent
-  let fixture: ComponentFixture<FeedDialogComponent>
+describe("AnalyticsFeedComponent", () => {
+  let component: AnalyticsFeedComponent
+  let fixture: ComponentFixture<AnalyticsFeedComponent>
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FeedDialogComponent ],
+      declarations: [ AnalyticsFeedComponent ],
       imports: [IonicModule.forRoot()]
     }).compileComponents()
 
-    fixture = TestBed.createComponent(FeedDialogComponent)
+    fixture = TestBed.createComponent(AnalyticsFeedComponent)
     component = fixture.componentInstance
     fixture.detectChanges()
   }))

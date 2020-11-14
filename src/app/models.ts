@@ -1,4 +1,4 @@
 export interface Data {
-    letter: string;
-    frequency: number;
+    letter: string
+    frequency: number
 }

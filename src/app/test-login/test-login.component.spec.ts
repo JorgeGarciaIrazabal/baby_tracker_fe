@@ -1,17 +1,17 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatInputModule } from '@angular/material/input';
-import { MatRadioModule } from '@angular/material/radio';
-import { MatSelectModule } from '@angular/material/select';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing"
+import { ReactiveFormsModule } from "@angular/forms"
+import { NoopAnimationsModule } from "@angular/platform-browser/animations"
+import { MatButtonModule } from "@angular/material/button"
+import { MatCardModule } from "@angular/material/card"
+import { MatInputModule } from "@angular/material/input"
+import { MatRadioModule } from "@angular/material/radio"
+import { MatSelectModule } from "@angular/material/select"
 
-import { TestLoginComponent } from './test-login.component';
+import { TestLoginComponent } from "./test-login.component"
 
-describe('TestLoginComponent', () => {
-  let component: TestLoginComponent;
-  let fixture: ComponentFixture<TestLoginComponent>;
+describe("TestLoginComponent", () => {
+  let component: TestLoginComponent
+  let fixture: ComponentFixture<TestLoginComponent>
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -25,16 +25,16 @@ describe('TestLoginComponent', () => {
         MatRadioModule,
         MatSelectModule,
       ]
-    }).compileComponents();
-  }));
+    }).compileComponents()
+  }))
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TestLoginComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    fixture = TestBed.createComponent(TestLoginComponent)
+    component = fixture.componentInstance
+    fixture.detectChanges()
+  })
 
-  it('should compile', () => {
-    expect(component).toBeTruthy();
-  });
-});
+  it("should compile", () => {
+    expect(component).toBeTruthy()
+  })
+})

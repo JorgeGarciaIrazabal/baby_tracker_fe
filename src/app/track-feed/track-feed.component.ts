@@ -26,6 +26,12 @@ export class TrackFeedComponent implements OnInit {
 
     async ngOnInit() {
         await this.refreshFeedings()
+        setInterval(() => {
+            if (this.editingFeed !== null) {
+                return
+            }
+            this.refreshFeedings()
+        }, 5000)
     }
 
     clearEditingFeed = () => {

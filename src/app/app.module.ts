@@ -39,6 +39,7 @@ import {TrackFeedComponent} from "./track-feed/track-feed.component"
 import {FeedDialogComponent} from "./feed-dialog/feed-dialog.component"
 import {NgxMaterialTimepickerModule} from "ngx-material-timepicker"
 import {BarChartComponent} from "./bar-chart/bar-chart.component"
+import {AnalyticsFeedComponent} from "./analytics-feed/analytics-feed.component"
 
 @NgModule({
     declarations: [
@@ -51,6 +52,7 @@ import {BarChartComponent} from "./bar-chart/bar-chart.component"
         TrackFeedComponent,
         FeedDialogComponent,
         BarChartComponent,
+        AnalyticsFeedComponent,
     ],
     entryComponents: [],
     imports: [

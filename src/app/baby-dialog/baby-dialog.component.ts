@@ -1,16 +1,16 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {Baby, Parent} from "../../openapi/models";
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {Storage} from "@ionic/storage";
+import {Component, Inject, OnInit} from "@angular/core"
+import {Baby, Parent} from "../../openapi/models"
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog"
+import {Storage} from "@ionic/storage"
 
 @Component({
-    selector: 'app-baby-dialog',
-    templateUrl: './baby-dialog.component.html',
-    styleUrls: ['./baby-dialog.component.scss'],
+    selector: "app-baby-dialog",
+    templateUrl: "./baby-dialog.component.html",
+    styleUrls: ["./baby-dialog.component.scss"],
 })
 export class BabyDialogComponent implements OnInit {
     public baby: Baby
-    private parent: Parent;
+    private parent: Parent
 
     constructor(
         public dialogRef: MatDialogRef<BabyDialogComponent>,
@@ -18,11 +18,11 @@ export class BabyDialogComponent implements OnInit {
         private storage: Storage,
     ) {
         this.baby = new class implements Baby {
-            birthDate: Date = new Date();
-            fatherId: number;
-            id: number;
-            motherId: number;
-            name: string;
+            birthDate: Date = new Date()
+            fatherId: number
+            id: number
+            motherId: number
+            name: string
         }
     }
 
@@ -36,7 +36,7 @@ export class BabyDialogComponent implements OnInit {
     }
 
     parentChosen(parent: string) {
-        if(parent ==="father") {
+        if (parent === "father") {
             this.baby.fatherId = this.parent.id
             this.baby.motherId = null
         } else {
