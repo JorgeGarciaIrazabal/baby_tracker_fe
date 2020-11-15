@@ -14,8 +14,7 @@
       Analytics
     </ng-template>
     <ng-template matTabContent>
-      Content 1 - Loaded: {{getTimeLoaded(1) | date:'medium'}}
-      <app-analytics-feed></app-analytics-feed>
+      <app-analytics-feed [baby]="baby"></app-analytics-feed>
     </ng-template>
   </mat-tab>
 </mat-tab-group>

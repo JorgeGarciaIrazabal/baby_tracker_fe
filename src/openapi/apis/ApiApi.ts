@@ -21,6 +21,9 @@ import {
     Feed,
     FeedFromJSON,
     FeedToJSON,
+    HTTPValidationError,
+    HTTPValidationErrorFromJSON,
+    HTTPValidationErrorToJSON,
     Parent,
     ParentFromJSON,
     ParentToJSON,
@@ -44,6 +47,8 @@ export interface DeleteFeedFeedIdDeleteRequest {
 
 export interface GetBabyFeedsBabyBabyIdFeedGetRequest {
     babyId: number;
+    startAt?: Date;
+    endAt?: Date;
 }
 
 export interface GetParentParentIdGetRequest {
@@ -187,7 +192,7 @@ export class ApiApi extends runtime.BaseAPI {
      */
     async deleteFeedFeedIdDeleteRaw(requestParameters: DeleteFeedFeedIdDeleteRequest): Promise<runtime.ApiResponse<Feed>> {
         if (requestParameters.id === null || requestParameters.id === undefined) {
-            throw new runtime.RequiredError('id', 'Required parameter requestParameters.id was null or undefined when calling deleteFeedFeedIdDelete.');
+            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling deleteFeedFeedIdDelete.');
         }
 
         const queryParameters: runtime.HTTPQuery = {};
@@ -217,10 +222,18 @@ export class ApiApi extends runtime.BaseAPI {
      */
     async getBabyFeedsBabyBabyIdFeedGetRaw(requestParameters: GetBabyFeedsBabyBabyIdFeedGetRequest): Promise<runtime.ApiResponse<Array<Feed>>> {
         if (requestParameters.babyId === null || requestParameters.babyId === undefined) {
-            throw new runtime.RequiredError('babyId', 'Required parameter requestParameters.babyId was null or undefined when calling getBabyFeedsBabyBabyIdFeedGet.');
+            throw new runtime.RequiredError('babyId','Required parameter requestParameters.babyId was null or undefined when calling getBabyFeedsBabyBabyIdFeedGet.');
         }
 
         const queryParameters: runtime.HTTPQuery = {};
+
+        if (requestParameters.startAt !== undefined) {
+            queryParameters['start_at'] = (requestParameters.startAt as any).toISOString();
+        }
+
+        if (requestParameters.endAt !== undefined) {
+            queryParameters['end_at'] = (requestParameters.endAt as any).toISOString();
+        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -363,6 +376,32 @@ export class ApiApi extends runtime.BaseAPI {
      */
     async newParentForBabyBabyIdNewParentPut(requestParameters: NewParentForBabyBabyIdNewParentPutRequest): Promise<Baby> {
         const response = await this.newParentForBabyBabyIdNewParentPutRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     * Ping
+     */
+    async pingPingGetRaw(): Promise<runtime.ApiResponse<string>> {
+        const queryParameters: runtime.HTTPQuery = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/ping`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.TextApiResponse(response) as any;
+    }
+
+    /**
+     * Ping
+     */
+    async pingPingGet(): Promise<string> {
+        const response = await this.pingPingGetRaw();
         return await response.value();
     }
 

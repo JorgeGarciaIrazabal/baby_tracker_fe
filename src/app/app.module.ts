@@ -40,6 +40,7 @@ import {FeedDialogComponent} from "./feed-dialog/feed-dialog.component"
 import {NgxMaterialTimepickerModule} from "ngx-material-timepicker"
 import {BarChartComponent} from "./bar-chart/bar-chart.component"
 import {AnalyticsFeedComponent} from "./analytics-feed/analytics-feed.component"
+import {InputUtilitiesModule, MDBBootstrapModule, MDBRootModule} from "angular-bootstrap-md"
 
 @NgModule({
     declarations: [
@@ -83,6 +84,8 @@ import {AnalyticsFeedComponent} from "./analytics-feed/analytics-feed.component"
         MatNativeDateModule,
         MatTabsModule,
         NgxMaterialTimepickerModule,
+        MDBRootModule,
+        MDBBootstrapModule.forRoot(),
     ],
     providers: [
         StatusBar,

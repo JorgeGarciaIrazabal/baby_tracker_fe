@@ -1,4 +1,4 @@
-export interface Data {
-    letter: string
-    frequency: number
+export interface ChartDataSet {
+    data: Array<number>
+    label: string
 }
