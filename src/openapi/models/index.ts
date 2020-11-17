@@ -3,4 +3,5 @@ export * from './Feed';
 export * from './FeedTypes';
 export * from './HTTPValidationError';
 export * from './Parent';
+export * from './ParentWithToken';
 export * from './ValidationError';

@@ -123,7 +123,7 @@ export class AnalyticsFeedComponent implements OnInit {
     }
 
     private async fetchFeedsWithinRange() {
-        const feeds = await this.apiService.api.getBabyFeedsBabyBabyIdFeedGet(
+        const feeds = await this.apiService.api.getBabyFeeds(
             {babyId: this.baby.id, startAt: this.getAnalyticsStartAt()}
         )
         this.feeds = feeds.sort((f1, f2) => {

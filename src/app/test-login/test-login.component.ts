@@ -1,6 +1,6 @@
-import {Component} from "@angular/core"
+import {Component, OnInit} from "@angular/core"
 import {FormBuilder, Validators} from "@angular/forms"
-import {Parent} from "../../openapi/models"
+import {Parent, ParentWithToken} from "../../openapi/models"
 import {NavController, ToastController} from "@ionic/angular"
 import {ApiService} from "../api.service"
 import {Storage} from "@ionic/storage"
@@ -11,7 +11,7 @@ import {Storage} from "@ionic/storage"
     templateUrl: "./test-login.component.html",
     styleUrls: ["./test-login.component.scss"]
 })
-export class TestLoginComponent {
+export class TestLoginComponent implements OnInit {
     parentForm = this.fb.group({
         name: null,
         email: [null, Validators.required],
@@ -38,20 +38,21 @@ export class TestLoginComponent {
 
     async onSubmit(parent) {
         try {
-            let loggedParent: Parent
+            let parentWithToken: ParentWithToken
             if (!this.signingUp) {
-                loggedParent = await this.apiService.api.signInSignInPut({
+                parentWithToken = await this.apiService.api.signIn({
                     email: parent.email,
                     password: parent.password
                 })
             } else {
-                loggedParent = await this.apiService.api.createParentParentPost({parent})
+                parentWithToken = await this.apiService.api.signUp({parent})
             }
             const t = await this.toastCtrl.create({
                 message: "Successfully logged in",
                 duration: 1000,
             })
-            await this.storage.set("self", loggedParent)
+            await this.storage.set("self", parentWithToken.parent)
+            await this.storage.set("token", parentWithToken.token)
             await this.nav.navigateRoot("")
             await t.present()
         } catch (e) {

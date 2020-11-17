@@ -28,7 +28,6 @@ import {MatIconModule} from "@angular/material/icon"
 import {MatListModule} from "@angular/material/list"
 import {MatGridListModule} from "@angular/material/grid-list"
 import {MatMenuModule} from "@angular/material/menu"
-import {AnalyticsComponent} from "./analytics/analytics.component"
 import {BabyDialogComponent} from "./baby-dialog/baby-dialog.component"
 import {MatDialogModule} from "@angular/material/dialog"
 import {MatDatepickerModule} from "@angular/material/datepicker"
@@ -40,14 +39,13 @@ import {FeedDialogComponent} from "./feed-dialog/feed-dialog.component"
 import {NgxMaterialTimepickerModule} from "ngx-material-timepicker"
 import {BarChartComponent} from "./bar-chart/bar-chart.component"
 import {AnalyticsFeedComponent} from "./analytics-feed/analytics-feed.component"
-import {InputUtilitiesModule, MDBBootstrapModule, MDBRootModule} from "angular-bootstrap-md"
+import {MDBBootstrapModule, MDBRootModule} from "angular-bootstrap-md"
 
 @NgModule({
     declarations: [
         AppComponent,
         TestLoginComponent,
         FrameComponent,
-        AnalyticsComponent,
         BabyDialogComponent,
         TrackTabsComponent,
         TrackFeedComponent,

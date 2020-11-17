@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from "@angular/core"
+import {Component, Input, OnDestroy, OnInit} from "@angular/core"
 import {Baby, Feed, FeedTypes, Parent} from "../../openapi/models"
 import {ApiService} from "../api.service"
 import {MatDialog} from "@angular/material/dialog"
@@ -12,13 +12,14 @@ import moment from "moment"
     templateUrl: "./track-feed.component.html",
     styleUrls: ["./track-feed.component.scss"],
 })
-export class TrackFeedComponent implements OnInit {
+export class TrackFeedComponent implements OnInit, OnDestroy {
 
     @Input() parent: Parent
     @Input() baby: Baby
     public feeds: Array<Feed>
     public editingFeed: number = null
     public self = this
+    private interval = null
 
     constructor(private apiService: ApiService, public dialog: MatDialog,
                 public toastCtrl: ToastController, public dtt: DatetimeToolsService) {
@@ -26,12 +27,16 @@ export class TrackFeedComponent implements OnInit {
 
     async ngOnInit() {
         await this.refreshFeedings()
-        setInterval(() => {
+        this.interval = setInterval(() => {
             if (this.editingFeed !== null) {
                 return
             }
             this.refreshFeedings()
         }, 5000)
+    }
+
+    async ngOnDestroy() {
+        clearInterval(this.interval)
     }
 
     clearEditingFeed = () => {
@@ -64,7 +69,7 @@ export class TrackFeedComponent implements OnInit {
             if (feed.endAt === null) {
                 delete feed.endAt
             }
-            await this.apiService.api.createFeedFeedPost({feed})
+            await this.apiService.api.createFeed({feed})
         } catch (e) {
             await (await this.toastCtrl.create({
                 message: "failed creating feed",
@@ -75,7 +80,7 @@ export class TrackFeedComponent implements OnInit {
 
     async updateFeed(feed) {
         try {
-            await this.apiService.api.updateFeedFeedPut({feed})
+            await this.apiService.api.updateFeed({feed})
         } catch (e) {
             await (await this.toastCtrl.create({
                 message: "failed updating feed",
@@ -104,13 +109,13 @@ export class TrackFeedComponent implements OnInit {
 
     async endFeeding(feed: Feed) {
         feed.endAt = this.dtt.dateToUtc(new Date())
-        await this.apiService.api.updateFeedFeedPut({feed})
+        await this.updateFeed({feed})
         await this.refreshFeedings()
         this.editingFeed = null
     }
 
     async refreshFeedings() {
-        const feeds = await this.apiService.api.getBabyFeedsBabyBabyIdFeedGet({babyId: this.baby.id})
+        const feeds = await this.apiService.api.getBabyFeeds({babyId: this.baby.id})
         this.feeds = feeds.sort((f1, f2) => {
             return f1.startAt < f2.startAt ? 1 : -1
         })
@@ -118,7 +123,7 @@ export class TrackFeedComponent implements OnInit {
 
 
     async onRemove(feed: Feed) {
-        await this.apiService.api.deleteFeedFeedIdDelete({id: feed.id})
+        await this.apiService.api.deleteFeed({id: feed.id})
         await this.refreshFeedings()
         this.editingFeed = null
     }

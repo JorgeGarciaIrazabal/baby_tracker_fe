@@ -38,7 +38,7 @@ export class FrameComponent {
             await this.nav.navigateForward("login")
         }
         try {
-            this.baby = await this.apiService.api.getParentsBabyBabyParentIdGet({id: this.parent.id})
+            this.baby = await this.apiService.api.getParentsBaby({id: this.parent.id})
         } catch (e) {
 
         }
@@ -51,7 +51,7 @@ export class FrameComponent {
     }
 
     async removeBaby() {
-        await this.apiService.api.removeParentsBabyBabyBabyIdParentParentIdPut({
+        await this.apiService.api.removeParentsBaby({
             babyId: this.baby.id,
             parentId: this.parent.id
         })
@@ -73,7 +73,7 @@ export class FrameComponent {
         dialogRef.afterClosed().subscribe(async result => {
             console.log("The dialog was closed")
             this.baby = result
-            this.baby = await this.apiService.api.createBabyBabyPost({baby: this.baby})
+            this.baby = await this.apiService.api.createBaby({baby: this.baby})
         })
     }
 
@@ -83,7 +83,7 @@ export class FrameComponent {
 
     async setNewParent() {
         try {
-            this.baby = await this.apiService.api.newParentForBabyBabyIdNewParentPut({
+            this.baby = await this.apiService.api.newParentForBaby({
                 id: this.baby.id,
                 newParentEmail: this.newParentsEmail
             })
