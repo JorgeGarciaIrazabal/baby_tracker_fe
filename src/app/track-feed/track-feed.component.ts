@@ -4,6 +4,8 @@ import {ApiService} from "../api.service"
 import {MatDialog} from "@angular/material/dialog"
 import {ToastController} from "@ionic/angular"
 import {DatetimeToolsService} from "../datetime-tools.service"
+
+
 // @ts-ignore
 import moment from "moment"
 
@@ -48,7 +50,7 @@ export class TrackFeedComponent implements OnInit, OnDestroy {
 
     getLastFeedingTime() {
         if (this.feeds && this.feeds.length > 0) {
-            return `Last feeding ${moment(this.feeds[0].startAt).fromNow()}`
+            return `Last feeding ${this.dtt.humanizeDuration(this.feeds[0].startAt)} ago`
         }
         return "touch the + button to add feedings"
     }

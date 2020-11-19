@@ -1,4 +1,4 @@
-import {Component} from "@angular/core"
+import {Component, OnInit} from "@angular/core"
 import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout"
 import {Observable} from "rxjs"
 import {map, shareReplay} from "rxjs/operators"
@@ -14,7 +14,7 @@ import {BabyDialogComponent} from "../baby-dialog/baby-dialog.component"
     templateUrl: "./frame.component.html",
     styleUrls: ["./frame.component.scss"]
 })
-export class FrameComponent {
+export class FrameComponent implements OnInit {
     public baby: Baby = null
     public parent: Parent = null
 

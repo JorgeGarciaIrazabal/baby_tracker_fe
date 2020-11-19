@@ -1,58 +1,68 @@
 import {Injectable} from "@angular/core"
 // @ts-ignore
 import moment from "moment"
+import humanizeDuration from "humanize-duration"
 import {Feed} from "../openapi/models"
 
 @Injectable({
-  providedIn: "root"
+    providedIn: "root"
 })
 export class DatetimeToolsService {
 
-  constructor() { }
-
-  datetimeUIToUtc(date: Date, time: string) {
-    let hour = parseInt(time.split(" ")[0].split(":")[0])
-    const mode = time.split(" ")[1]
-    if (hour != 12) {
-      hour = mode == "PM" ? 12 + hour : hour
-    } else {
-      hour = mode == "AM" ? 0 : 12
+    constructor() {
     }
 
-    const min = parseInt(time.split(" ")[0].split(":")[1])
-    const momentDate = moment(date)
-    momentDate.hours(hour)
-    momentDate.minutes(min)
-    return momentDate.utc().toDate()
-  }
+    datetimeUIToUtc(date: Date, time: string): Date {
+        let hour = parseInt(time.split(" ")[0].split(":")[0], 10)
+        const mode = time.split(" ")[1]
+        if (hour !== 12) {
+            hour = mode === "PM" ? 12 + hour : hour
+        } else {
+            hour = mode === "AM" ? 0 : 12
+        }
 
-  datetimeToStrTime(date: Date) {
-    const momentDate = moment(date)
-    return momentDate.format("hh:mm a").toUpperCase()
-  }
-
-  dateDiffMin(feed: Feed) {
-    if (feed.endAt == null) {
-      return 0
+        const min = parseInt(time.split(" ")[0].split(":")[1], 10)
+        const momentDate = moment(date)
+        momentDate.hours(hour)
+        momentDate.minutes(min)
+        return momentDate.utc().toDate()
     }
-    // @ts-ignore
-    const diffMs: number = (feed.endAt - feed.startAt) // milliseconds
-    return Math.floor(diffMs / 60000)
-  }
 
-  dateToUtc(date) {
-    return moment(date).utc().toDate()
-  }
+    datetimeToStrTime(date: Date): string {
+        const momentDate = moment(date)
+        return momentDate.format("hh:mm a").toUpperCase()
+    }
 
-  humanizeDateTime(date) {
-    return moment(date).format("MMM Do hh:mm A")
-  }
+    dateDiffMinutes(feed: Feed): number {
+        if (feed.endAt == null) {
+            return 0
+        }
+        // @ts-ignore
+        const diffMs: number = (feed.endAt - feed.startAt) // milliseconds
+        return Math.floor(diffMs / 60000)
+    }
 
-  humanizeTime(date) {
-    return moment(date).format("hh:mm A")
-  }
+    dateToUtc(date) {
+        return moment(date).utc().toDate()
+    }
 
-  humanizeDate(date) {
-    return moment(date).format("dddd, MMM Do")
-  }
+    humanizeDateTime(date) {
+        return moment(date).format("MMM Do hh:mm A")
+    }
+
+    humanizeTime(date) {
+        return moment(date).format("hh:mm A")
+    }
+
+    humanizeDate(date) {
+        return moment(date).format("dddd, MMM Do")
+    }
+
+    humanizeDuration(startAt: Date, endAt: Date = null): string {
+        endAt = endAt || new Date()
+        return humanizeDuration(
+            moment(startAt).diff(moment(endAt)),
+            {units: ["d", "h", "m"], maxDecimalPoints: 0},
+        )
+    }
 }

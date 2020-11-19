@@ -4,6 +4,8 @@ import {ChartDataSet} from "../models"
 import {Baby, Feed} from "../../openapi/models"
 // @ts-ignore
 import moment from "moment"
+// @ts-ignore
+import Enumerable from "linq"
 
 
 export interface Summary {
@@ -67,21 +69,13 @@ export class AnalyticsFeedComponent implements OnInit {
         })
         const feedsToday = this.feedsPerDay[moment().format("MMM DD")] || []
 
-        const accByAmount = (acc: number, feed: Feed) => {
-            return acc + feed.amount
-        }
-        const accByDuration = (acc: number, feed: Feed) => {
-            const duration = moment.duration(moment(feed.endAt).diff(moment(feed.startAt)))
-            return acc + duration.asMinutes()
-        }
+        const amount24h = Math.round(Enumerable.from(feeds24h).sum((f: Feed) => f.amount))
+        const amountToday = Math.round(Enumerable.from(feedsToday).sum((f: Feed) => f.amount))
+        const duration24h = Math.round(Enumerable.from(feeds24h).sum(this.getFeedDuration))
+        const durationToday = Math.round(Enumerable.from(feedsToday).sum(this.getFeedDuration))
 
-        const amount24h = Math.round(feeds24h.reduce(accByAmount, 0))
-        const amountToday = Math.round(feedsToday.reduce(accByAmount, 0))
-        const duration24h = Math.round(feeds24h.reduce(accByDuration, 0))
-        const durationToday = Math.round(feedsToday.reduce(accByDuration, 0))
-
-        const totalAmount = this.feeds.reduce(accByAmount, 0) - amountToday
-        const totalDuration = this.feeds.reduce(accByDuration, 0) - durationToday
+        const totalAmount = Math.round(Enumerable.from(this.feeds).sum((f: Feed) => f.amount) - amountToday)
+        const totalDuration = Math.round(Enumerable.from(this.feeds).sum(this.getFeedDuration) - durationToday)
 
         const daysCountButToday = this.dateRangeSelected - 1
         this.summary = {
@@ -93,6 +87,10 @@ export class AnalyticsFeedComponent implements OnInit {
             avgDurationPerDay: totalDuration / daysCountButToday,
             avgFeedingsPerDay: (this.feeds.length - feedsToday.length) / daysCountButToday,
         }
+    }
+
+    private getFeedDuration(f: Feed) {
+        return moment.duration(moment(f.endAt).diff(moment(f.startAt))).asMinutes()
     }
 
     private populateAmountChart() {
@@ -142,7 +140,7 @@ export class AnalyticsFeedComponent implements OnInit {
     }
 
     private getAnalyticsStartAt() {
-        const startAtDate = moment().subtract(this.dateRangeSelected, "d")
+        const startAtDate = moment().subtract(this.dateRangeSelected - 1, "d")
         startAtDate.startOf("day")
         return startAtDate
     }

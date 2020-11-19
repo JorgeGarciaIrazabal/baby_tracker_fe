@@ -15,7 +15,8 @@ export class BarChartComponent {
         { data: [65, 59, 80, 81, 56, 55, 40], label: "My First dataset" }
     ]
 
-    @Input() public labels: Array<string> = ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"]
+    @Input() public labels: Array<string> = []
+    @Input() public unit = "min"
 
     public chartColors: Array<any> = [
         {
@@ -26,7 +27,21 @@ export class BarChartComponent {
     ]
 
     public chartOptions: any = {
-        responsive: true
+        responsive: true,
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        },
+        tooltips: {
+            callbacks: {
+                label: (tooltipItem, data) => {
+                    return `${Math.round(tooltipItem.yLabel)} (${this.unit})`
+                }
+            }
+        }
     }
 
     public chartClicked(e: any): void { }

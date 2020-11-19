@@ -17,7 +17,7 @@
                 ></app-feed-dialog>
             </div>
             <div *ngIf="feed.id!==editingFeed" (click)="editingFeed=feed.id" class="row-div">
-                <div *ngIf="feed.endAt !== null" mat-line>{{dtt.humanizeTime(feed.startAt)}} - {{dtt.dateDiffMin(feed)}}
+                <div *ngIf="feed.endAt !== null" mat-line>{{dtt.humanizeTime(feed.startAt)}} - {{dtt.dateDiffMinutes(feed)}}
                     min
                 </div>
                 <div *ngIf="feed.endAt === null" mat-line>{{dtt.humanizeTime(feed.startAt)}}</div>
