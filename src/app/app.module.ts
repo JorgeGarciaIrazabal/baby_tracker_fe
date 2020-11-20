@@ -40,6 +40,8 @@ import {NgxMaterialTimepickerModule} from "ngx-material-timepicker"
 import {BarChartComponent} from "./bar-chart/bar-chart.component"
 import {AnalyticsFeedComponent} from "./analytics-feed/analytics-feed.component"
 import {MDBBootstrapModule, MDBRootModule} from "angular-bootstrap-md"
+import {InfiniteScrollModule} from "ngx-infinite-scroll"
+import {platformBrowserDynamic} from "@angular/platform-browser-dynamic"
 
 @NgModule({
     declarations: [
@@ -84,6 +86,7 @@ import {MDBBootstrapModule, MDBRootModule} from "angular-bootstrap-md"
         NgxMaterialTimepickerModule,
         MDBRootModule,
         MDBBootstrapModule.forRoot(),
+        InfiniteScrollModule,
     ],
     providers: [
         StatusBar,
@@ -94,3 +97,5 @@ import {MDBBootstrapModule, MDBRootModule} from "angular-bootstrap-md"
 })
 export class AppModule {
 }
+
+// platformBrowserDynamic().bootstrapModule(AppModule)

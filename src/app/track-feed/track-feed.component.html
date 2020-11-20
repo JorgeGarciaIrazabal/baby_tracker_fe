@@ -1,4 +1,9 @@
-<mat-list>
+<mat-list infiniteScroll
+          [infiniteScrollDistance]="2"
+          [infiniteScrollThrottle]="50"
+          infiniteScrollContainer=".mat-tab-body-content"
+          [fromRoot]="true"
+          (scrolled)="onScroll()">
     <div class="mat-body-strong last-feeding-padding">{{getLastFeedingTime()}}</div>
     <div *ngFor="let feed of feeds;let i=index;">
         <div *ngIf="i === 0 || this.dtt.humanizeDate(feed.startAt) !==  this.dtt.humanizeDate(feeds[i - 1].startAt)"

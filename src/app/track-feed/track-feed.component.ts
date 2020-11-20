@@ -4,8 +4,6 @@ import {ApiService} from "../api.service"
 import {MatDialog} from "@angular/material/dialog"
 import {ToastController} from "@ionic/angular"
 import {DatetimeToolsService} from "../datetime-tools.service"
-
-
 // @ts-ignore
 import moment from "moment"
 
@@ -22,6 +20,8 @@ export class TrackFeedComponent implements OnInit, OnDestroy {
     public editingFeed: number = null
     public self = this
     private interval = null
+    private pageSize = 10
+    private pageSizeTotal = 30
 
     constructor(private apiService: ApiService, public dialog: MatDialog,
                 public toastCtrl: ToastController, public dtt: DatetimeToolsService) {
@@ -29,6 +29,7 @@ export class TrackFeedComponent implements OnInit, OnDestroy {
 
     async ngOnInit() {
         await this.refreshFeedings()
+        clearInterval(this.interval)
         this.interval = setInterval(() => {
             if (this.editingFeed !== null) {
                 return
@@ -117,7 +118,10 @@ export class TrackFeedComponent implements OnInit, OnDestroy {
     }
 
     async refreshFeedings() {
-        const feeds = await this.apiService.api.getBabyFeeds({babyId: this.baby.id})
+        const feeds = await this.apiService.api.getBabyFeeds({
+            babyId: this.baby.id,
+            pageSize: this.pageSizeTotal,
+        })
         this.feeds = feeds.sort((f1, f2) => {
             return f1.startAt < f2.startAt ? 1 : -1
         })
@@ -128,5 +132,10 @@ export class TrackFeedComponent implements OnInit, OnDestroy {
         await this.apiService.api.deleteFeed({id: feed.id})
         await this.refreshFeedings()
         this.editingFeed = null
+    }
+
+    async onScroll() {
+        this.pageSizeTotal += this.pageSize
+        await this.refreshFeedings()
     }
 }

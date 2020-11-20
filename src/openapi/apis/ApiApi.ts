@@ -51,6 +51,8 @@ export interface GetBabyFeedsRequest {
     babyId: number;
     startAt?: Date;
     endAt?: Date;
+    page?: number;
+    pageSize?: number;
     authorization?: string;
 }
 
@@ -230,6 +232,14 @@ export class ApiApi extends runtime.BaseAPI {
 
         if (requestParameters.endAt !== undefined) {
             queryParameters['end_at'] = (requestParameters.endAt as any).toISOString();
+        }
+
+        if (requestParameters.page !== undefined) {
+            queryParameters['page'] = requestParameters.page;
+        }
+
+        if (requestParameters.pageSize !== undefined) {
+            queryParameters['page_size'] = requestParameters.pageSize;
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
