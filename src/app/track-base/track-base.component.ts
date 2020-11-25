@@ -50,7 +50,10 @@ export class TrackBaseComponent implements OnInit, OnDestroy {
         this.formTplContext = {
             ctx: {
                 entity: null,
-                onCancel: () => this.editingId = null,
+                onCancel: () => {
+                    this.editingId = null
+                    this.entities = this.entities.filter((e) => e.id !== -1)
+                },
                 onRemove: this.onRemove.bind(this),
                 baby: this.baby,
                 onOk: this.entityEvent.bind(this),

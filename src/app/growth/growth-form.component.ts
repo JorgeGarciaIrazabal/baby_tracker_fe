@@ -126,7 +126,7 @@ export class GrowthFormComponent implements OnInit, OnChanges {
     }
 
     private growthFromForm(): Growth {
-        const growth: Growth = {at: undefined, babyId: 0, id: 0, measure: 0, type: GrowthTypes.HEIGHT}
+        const growth: Growth = {...this.ctx.entity}
         growth.measure = this.growthForm.value.measure
         growth.at = this.dtt.datetimeUIToUtc(this.growthForm.value.atDate, this.growthForm.value.atTime)
         growth.babyId = this.ctx.baby.id
