@@ -1,0 +1,34 @@
+<div class="analytics-summary">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>Summary</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <ion-grid class="analytics-summary-grid">
+                <ion-row>
+                    <ion-col>
+                        <ion-row>
+                            <strong>
+                                Today
+                            </strong>
+                        </ion-row>
+
+                        <ion-row *ngFor="let row of todayRows">
+                            {{row}}
+                        </ion-row>
+                    </ion-col>
+                    <ion-col>
+                        <ion-row>
+                            <strong>
+                                Last 24 hours
+                            </strong>
+                        </ion-row>
+                        <ion-row *ngFor="let row of last24Rows">
+                            {{row}}
+                        </ion-row>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </mat-card-content>
+    </mat-card>
+</div>

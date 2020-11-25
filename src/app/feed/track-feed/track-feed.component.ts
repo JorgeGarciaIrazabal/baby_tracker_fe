@@ -1,9 +1,9 @@
 import {Component, Input, OnDestroy, OnInit} from "@angular/core"
-import {Baby, Feed, FeedTypes, Parent} from "../../openapi/models"
-import {ApiService} from "../api.service"
+import {Baby, Feed, FeedTypes, Parent} from "../../../openapi/models"
+import {ApiService} from "../../api.service"
 import {MatDialog} from "@angular/material/dialog"
 import {ToastController} from "@ionic/angular"
-import {DatetimeToolsService} from "../datetime-tools.service"
+import {DatetimeToolsService} from "../../datetime-tools.service"
 // @ts-ignore
 import moment from "moment"
 
@@ -13,7 +13,6 @@ import moment from "moment"
     styleUrls: ["./track-feed.component.scss"],
 })
 export class TrackFeedComponent implements OnInit, OnDestroy {
-
     @Input() parent: Parent
     @Input() baby: Baby
     public feeds: Array<Feed>

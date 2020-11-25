@@ -1,5 +1,5 @@
 import {Component, Input} from "@angular/core"
-import {ChartDataSet} from "../models"
+import {ChartDataSet} from "../../models"
 
 
 
@@ -9,14 +9,12 @@ import {ChartDataSet} from "../models"
     styleUrls: ["./bar-chart.component.scss"]
 })
 export class BarChartComponent {
-    public chartType = "bar"
+    // public chartType = "bar"
 
-    @Input() public dataSets: Array<ChartDataSet> = [
-        { data: [65, 59, 80, 81, 56, 55, 40], label: "My First dataset" }
-    ]
-
-    @Input() public labels: Array<string> = []
+    @Input() public dataSets: Array<ChartDataSet> = []
+    @Input() public labels: Array<string>
     @Input() public unit = "min"
+    @Input() public chartType = "bar"
 
     public chartColors: Array<any> = [
         {

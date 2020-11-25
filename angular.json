@@ -45,10 +45,11 @@
               },
               {
                 "input": "src/global.scss"
-              },
+              }
 
             ],
             "scripts": [
+              "node_modules/moment/moment.js",
               "node_modules/chart.js/dist/Chart.js",
               "node_modules/hammerjs/hammer.min.js"
             ]

@@ -1,9 +1,9 @@
 import {Component, Input, OnInit} from "@angular/core"
-import {Baby, Feed, FeedTypes} from "../../openapi/models"
+import {Baby, Feed, FeedTypes} from "../../../openapi/models"
 import {FormBuilder, Validators} from "@angular/forms"
 // @ts-ignore
 import moment from "moment"
-import {DatetimeToolsService} from "../datetime-tools.service"
+import {DatetimeToolsService} from "../../datetime-tools.service"
 
 @Component({
   selector: "app-feed-dialog",

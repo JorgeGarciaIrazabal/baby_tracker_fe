@@ -45,6 +45,13 @@
             </button>
             <span>Baby Tracker</span>
             <span class="spacer"></span>
+            <mat-form-field class="metrics-selector-field">
+                <mat-select class="metrics-selector" [(ngModel)]="metricSelected">
+                    <mat-option *ngFor="let option of metrics" [value]="option.value">
+                        {{option.label}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
             <button mat-icon-button (click)="doRefresh()">
                 <mat-icon>refresh</mat-icon>
             </button>
@@ -62,8 +69,11 @@
         </div>
         <div class="tabs-wrapper">
             <app-track-tabs
-                *ngIf="baby !== null" [baby]="baby"
-                class="main-tabs">
+                *ngIf="baby !== null"
+                [baby]="baby"
+                class="main-tabs"
+                [metric]="metricSelected"
+            >
             </app-track-tabs>
         </div>
 

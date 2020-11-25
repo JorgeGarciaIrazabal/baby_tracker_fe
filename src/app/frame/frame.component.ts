@@ -8,6 +8,7 @@ import {Storage} from "@ionic/storage"
 import {Baby, Parent} from "../../openapi/models"
 import {MatDialog} from "@angular/material/dialog"
 import {BabyDialogComponent} from "../baby-dialog/baby-dialog.component"
+import {Metric} from "../models"
 
 @Component({
     selector: "app-frame",
@@ -25,6 +26,11 @@ export class FrameComponent implements OnInit {
         )
     public selectingNewParent: boolean
     public newParentsEmail: string
+    public metrics = [
+        { value: Metric.Feed, label: "Feeds" },
+        { value: Metric.Growth, label: "Growth" }
+    ]
+    public metricSelected: Metric = Metric.Feed
 
     constructor(private breakpointObserver: BreakpointObserver, public nav: NavController,
                 private storage: Storage, private apiService: ApiService, public dialog: MatDialog,

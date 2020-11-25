@@ -1,0 +1,27 @@
+<mat-list infiniteScroll
+          [infiniteScrollDistance]="2"
+          [infiniteScrollThrottle]="50"
+          infiniteScrollContainer=".mat-tab-body-content"
+          [fromRoot]="true"
+          (scrolled)="onScroll()">
+  <div *ngFor="let entity of entities;let i=index;">
+    <div *ngIf="i === 0 || this.dtt.humanizeDate(getEntityStartDate(entity)) !==  this.dtt.humanizeDate(getEntityStartDate(entities[i - 1]))"
+         class="date-group"
+    >
+      {{this.dtt.humanizeDate(getEntityStartDate(entity))}}
+    </div>
+    <div class="row-padding" >
+      <div *ngIf="entity.id===editingId">
+        <ng-container *ngTemplateOutlet="formTpl; context: formTplContext"></ng-container>
+      </div>
+      <div *ngIf="entity.id!==editingId" (click)="updateEditingId(entity)" class="row-div">
+        <div mat-line>{{entity.type}} - {{dtt.humanizeTime(getEntityStartDate(entity))}} - {{entity.measure}} {{uu.getGrowthShortUnit(entity)}}
+        </div>
+      </div>
+    </div>
+  </div>
+  <button mat-fab color="primary" aria-label="Example icon button with a home icon" class="floatingbr"
+          (click)="addEmptyEntity()" [disabled]="editingId !== null">
+    <mat-icon>add</mat-icon>
+  </button>
+</mat-list>

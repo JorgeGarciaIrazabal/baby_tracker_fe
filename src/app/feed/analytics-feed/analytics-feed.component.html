@@ -1,0 +1,15 @@
+<div class="ion-padding">
+    <app-analytics-summary
+        [todayRows]="['Amount ' + summary.amountToday + ' ml', 'Duration ' + summary.durationToday +  'min']"
+        [last24Rows]="['Amount ' + summary.amount24h + ' ml', 'Duration ' + summary.duration24h +  ' min']"
+    ></app-analytics-summary>
+    <div class="d-flex">
+        <app-analytics-date-range-select [(ngModel)]="dateRangeSelected"
+                                         (ngModelChange)="onRangeChanged()"
+        >
+        </app-analytics-date-range-select>
+    </div>
+
+    <app-bar-chart [dataSets]="[amountDataSet]" [labels]="amountLabels" unit="ml"></app-bar-chart>
+    <app-bar-chart [dataSets]="[durationDataSet]" [labels]="durationLabels" unit="min"></app-bar-chart>
+</div>

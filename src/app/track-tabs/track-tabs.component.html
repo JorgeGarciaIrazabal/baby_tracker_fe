@@ -1,19 +1,36 @@
 <mat-tab-group class="tab-main" color="primary" backgroundColor="primary">
-  <mat-tab>
-    <ng-template mat-tab-label>
-      <ion-icon class="tab-icon" name="list"></ion-icon>
-      Track
+    <ng-template let-ctx="ctx" #growthForm>
+        <app-growth-form [ctx]="ctx"></app-growth-form>
     </ng-template>
-    <app-track-feed [baby]="baby"></app-track-feed>
-  </mat-tab>
+    <mat-tab>
+        <ng-template mat-tab-label>
+            <ion-icon class="tab-icon" name="list"></ion-icon>
+            Track
+        </ng-template>
+        <div [ngSwitch]="metric">
+            <app-track-feed *ngSwitchCase="Metric.Feed" [baby]="baby"></app-track-feed>
+            <app-track-base
+                *ngSwitchCase="Metric.Growth"
+                [baby]="baby"
+                entitiesName="Growth"
+                [formTpl]="growthForm"
+                [createNewEntity]="createNewGrowth"
+            >
+                <div>my new test</div>
+            </app-track-base>
+        </div>
+    </mat-tab>
 
-  <mat-tab>
-    <ng-template mat-tab-label>
-      <ion-icon class="tab-icon" name="analytics"></ion-icon>
-      Analytics
-    </ng-template>
-    <ng-template matTabContent>
-      <app-analytics-feed [baby]="baby"></app-analytics-feed>
-    </ng-template>
-  </mat-tab>
+    <mat-tab>
+        <ng-template mat-tab-label>
+            <ion-icon class="tab-icon" name="analytics"></ion-icon>
+            Analytics
+        </ng-template>
+        <ng-template matTabContent>
+            <div [ngSwitch]="metric">
+                <app-analytics-feed *ngSwitchCase="Metric.Feed" [baby]="baby"></app-analytics-feed>
+                <app-analytics-growth *ngSwitchCase="Metric.Growth" [baby]="baby"></app-analytics-growth>
+            </div>
+        </ng-template>
+    </mat-tab>
 </mat-tab-group>

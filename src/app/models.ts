@@ -1,4 +1,10 @@
 export interface ChartDataSet {
-    data: Array<number>
-    label: string
+    data: Array<any>
+    label: string,
+    colors?: any,
+}
+
+export enum Metric {
+    Feed = "feed",
+    Growth = "growth",
 }

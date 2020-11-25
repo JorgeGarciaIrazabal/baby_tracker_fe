@@ -1,0 +1,37 @@
+.floatingbr {
+  position: fixed;
+  right: 10px;
+  bottom: 10px;
+}
+
+.row-padding {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 8px 22px 15px 22px;
+
+  .ng-star-inserted {
+    width: 100%;
+  }
+}
+
+.simple-row {
+  display: flex;
+  flex-wrap: wrap;
+
+  .edit-input {
+    max-width: 100px;
+  }
+}
+
+.row-div {
+  flex: 1;
+  width: 100%;
+}
+
+.date-group {
+  width: 100%;
+  font-weight: bold;
+  background: #6dab5a;
+  padding: 3px 8px;
+}

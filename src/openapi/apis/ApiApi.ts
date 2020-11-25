@@ -21,6 +21,9 @@ import {
     Feed,
     FeedFromJSON,
     FeedToJSON,
+    Growth,
+    GrowthFromJSON,
+    GrowthToJSON,
     HTTPValidationError,
     HTTPValidationErrorFromJSON,
     HTTPValidationErrorToJSON,
@@ -42,7 +45,17 @@ export interface CreateFeedRequest {
     authorization?: string;
 }
 
+export interface CreateGrowthRequest {
+    growth: Growth;
+    authorization?: string;
+}
+
 export interface DeleteFeedRequest {
+    id: number;
+    authorization?: string;
+}
+
+export interface DeleteGrowthRequest {
     id: number;
     authorization?: string;
 }
@@ -51,6 +64,13 @@ export interface GetBabyFeedsRequest {
     babyId: number;
     startAt?: Date;
     endAt?: Date;
+    page?: number;
+    pageSize?: number;
+    authorization?: string;
+}
+
+export interface GetBabyGrowthsRequest {
+    babyId: number;
     page?: number;
     pageSize?: number;
     authorization?: string;
@@ -100,6 +120,11 @@ export interface UpdateBabyRequest {
 
 export interface UpdateFeedRequest {
     feed: Feed;
+    authorization?: string;
+}
+
+export interface UpdateGrowthRequest {
+    growth: Growth;
     authorization?: string;
 }
 
@@ -183,6 +208,43 @@ export class ApiApi extends runtime.BaseAPI {
     }
 
     /**
+     * Create Growth
+     */
+    async createGrowthRaw(requestParameters: CreateGrowthRequest): Promise<runtime.ApiResponse<Growth>> {
+        if (requestParameters.growth === null || requestParameters.growth === undefined) {
+            throw new runtime.RequiredError('growth','Required parameter requestParameters.growth was null or undefined when calling createGrowth.');
+        }
+
+        const queryParameters: runtime.HTTPQuery = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (requestParameters.authorization !== undefined && requestParameters.authorization !== null) {
+            headerParameters['Authorization'] = String(requestParameters.authorization);
+        }
+
+        const response = await this.request({
+            path: `/growth`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: GrowthToJSON(requestParameters.growth),
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => GrowthFromJSON(jsonValue));
+    }
+
+    /**
+     * Create Growth
+     */
+    async createGrowth(requestParameters: CreateGrowthRequest): Promise<Growth> {
+        const response = await this.createGrowthRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
      * Delete Feed
      */
     async deleteFeedRaw(requestParameters: DeleteFeedRequest): Promise<runtime.ApiResponse<Feed>> {
@@ -213,6 +275,40 @@ export class ApiApi extends runtime.BaseAPI {
      */
     async deleteFeed(requestParameters: DeleteFeedRequest): Promise<Feed> {
         const response = await this.deleteFeedRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     * Delete Growth
+     */
+    async deleteGrowthRaw(requestParameters: DeleteGrowthRequest): Promise<runtime.ApiResponse<Growth>> {
+        if (requestParameters.id === null || requestParameters.id === undefined) {
+            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling deleteGrowth.');
+        }
+
+        const queryParameters: runtime.HTTPQuery = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (requestParameters.authorization !== undefined && requestParameters.authorization !== null) {
+            headerParameters['Authorization'] = String(requestParameters.authorization);
+        }
+
+        const response = await this.request({
+            path: `/growth/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
+            method: 'DELETE',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => GrowthFromJSON(jsonValue));
+    }
+
+    /**
+     * Delete Growth
+     */
+    async deleteGrowth(requestParameters: DeleteGrowthRequest): Promise<Growth> {
+        const response = await this.deleteGrowthRaw(requestParameters);
         return await response.value();
     }
 
@@ -263,6 +359,48 @@ export class ApiApi extends runtime.BaseAPI {
      */
     async getBabyFeeds(requestParameters: GetBabyFeedsRequest): Promise<Array<Feed>> {
         const response = await this.getBabyFeedsRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     * Get Baby Growths
+     */
+    async getBabyGrowthsRaw(requestParameters: GetBabyGrowthsRequest): Promise<runtime.ApiResponse<Array<Growth>>> {
+        if (requestParameters.babyId === null || requestParameters.babyId === undefined) {
+            throw new runtime.RequiredError('babyId','Required parameter requestParameters.babyId was null or undefined when calling getBabyGrowths.');
+        }
+
+        const queryParameters: runtime.HTTPQuery = {};
+
+        if (requestParameters.page !== undefined) {
+            queryParameters['page'] = requestParameters.page;
+        }
+
+        if (requestParameters.pageSize !== undefined) {
+            queryParameters['page_size'] = requestParameters.pageSize;
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (requestParameters.authorization !== undefined && requestParameters.authorization !== null) {
+            headerParameters['Authorization'] = String(requestParameters.authorization);
+        }
+
+        const response = await this.request({
+            path: `/baby/{baby_id}/growth`.replace(`{${"baby_id"}}`, encodeURIComponent(String(requestParameters.babyId))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(GrowthFromJSON));
+    }
+
+    /**
+     * Get Baby Growths
+     */
+    async getBabyGrowths(requestParameters: GetBabyGrowthsRequest): Promise<Array<Growth>> {
+        const response = await this.getBabyGrowthsRaw(requestParameters);
         return await response.value();
     }
 
@@ -598,6 +736,43 @@ export class ApiApi extends runtime.BaseAPI {
      */
     async updateFeed(requestParameters: UpdateFeedRequest): Promise<Feed> {
         const response = await this.updateFeedRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     * Update Growth
+     */
+    async updateGrowthRaw(requestParameters: UpdateGrowthRequest): Promise<runtime.ApiResponse<Growth>> {
+        if (requestParameters.growth === null || requestParameters.growth === undefined) {
+            throw new runtime.RequiredError('growth','Required parameter requestParameters.growth was null or undefined when calling updateGrowth.');
+        }
+
+        const queryParameters: runtime.HTTPQuery = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (requestParameters.authorization !== undefined && requestParameters.authorization !== null) {
+            headerParameters['Authorization'] = String(requestParameters.authorization);
+        }
+
+        const response = await this.request({
+            path: `/growth`,
+            method: 'PUT',
+            headers: headerParameters,
+            query: queryParameters,
+            body: GrowthToJSON(requestParameters.growth),
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => GrowthFromJSON(jsonValue));
+    }
+
+    /**
+     * Update Growth
+     */
+    async updateGrowth(requestParameters: UpdateGrowthRequest): Promise<Growth> {
+        const response = await this.updateGrowthRaw(requestParameters);
         return await response.value();
     }
 

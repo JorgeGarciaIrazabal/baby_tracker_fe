@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from "@angular/core"
-import {ApiService} from "../api.service"
-import {ChartDataSet} from "../models"
-import {Baby, Feed} from "../../openapi/models"
+import {ApiService} from "../../api.service"
+import {ChartDataSet} from "../../models"
+import {Baby, Feed} from "../../../openapi/models"
 // @ts-ignore
 import moment from "moment"
 // @ts-ignore
@@ -96,9 +96,7 @@ export class AnalyticsFeedComponent implements OnInit {
     private populateAmountChart() {
         this.amountDataSet = {
             data: Object.values(this.feedsPerDay).map((feeds: Array<Feed>) => {
-                return feeds.reduce((acc, feed) => {
-                    return acc + feed.amount
-                }, 0)
+                return Enumerable.from(feeds).sum((f: Feed) => f.amount)
             }),
             label: `Amount drank per day (ml). Avg ${this.summary.avgAmountPerDay.toFixed(2)} ml/day`
         }
@@ -109,10 +107,9 @@ export class AnalyticsFeedComponent implements OnInit {
     private populateDurationChart() {
         this.durationDataSet = {
             data: Object.values(this.feedsPerDay).map((feeds: Array<Feed>) => {
-                return feeds.reduce((acc, feed) => {
-                    const duration = moment.duration(moment(feed.endAt).diff(moment(feed.startAt)))
-                    return acc + duration.asMinutes()
-                }, 0)
+                return Enumerable.from(feeds).sum((f: Feed) => {
+                    return moment.duration(moment(f.endAt).diff(moment(f.startAt))).asMinutes()
+                })
             }),
             label: `Feeding duration per day (min). Avg ${this.summary.avgDurationPerDay.toFixed(2)} min/day`
         }

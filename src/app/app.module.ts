@@ -34,14 +34,18 @@ import {MatDatepickerModule} from "@angular/material/datepicker"
 import {MatNativeDateModule} from "@angular/material/core"
 import {TrackTabsComponent} from "./track-tabs/track-tabs.component"
 import {MatTabsModule} from "@angular/material/tabs"
-import {TrackFeedComponent} from "./track-feed/track-feed.component"
-import {FeedDialogComponent} from "./feed-dialog/feed-dialog.component"
+import {TrackFeedComponent} from "./feed/track-feed/track-feed.component"
+import {FeedDialogComponent} from "./feed/feed-dialog/feed-dialog.component"
 import {NgxMaterialTimepickerModule} from "ngx-material-timepicker"
-import {BarChartComponent} from "./bar-chart/bar-chart.component"
-import {AnalyticsFeedComponent} from "./analytics-feed/analytics-feed.component"
+import {BarChartComponent} from "./analytics-components/bar-chart/bar-chart.component"
+import {AnalyticsFeedComponent} from "./feed/analytics-feed/analytics-feed.component"
 import {MDBBootstrapModule, MDBRootModule} from "angular-bootstrap-md"
 import {InfiniteScrollModule} from "ngx-infinite-scroll"
-import {platformBrowserDynamic} from "@angular/platform-browser-dynamic"
+import {TrackBaseComponent} from "./track-base/track-base.component"
+import {GrowthFormComponent} from "./growth/growth-form.component"
+import {AnalyticsSummaryComponent} from "./analytics-components/analytics-summary/analytics-summary.component"
+import {AnalyticsDateRangeSelectComponent} from "./analytics-components/analytics-date-range-select/analytics-date-range-select.component"
+import {AnalyticsGrowthComponent} from "./growth/analytics-growth/analytics-growth.component"
 
 @NgModule({
     declarations: [
@@ -49,11 +53,16 @@ import {platformBrowserDynamic} from "@angular/platform-browser-dynamic"
         TestLoginComponent,
         FrameComponent,
         BabyDialogComponent,
+        TrackBaseComponent,
         TrackTabsComponent,
         TrackFeedComponent,
         FeedDialogComponent,
         BarChartComponent,
         AnalyticsFeedComponent,
+        GrowthFormComponent,
+        AnalyticsSummaryComponent,
+        AnalyticsDateRangeSelectComponent,
+        AnalyticsGrowthComponent,
     ],
     entryComponents: [],
     imports: [
