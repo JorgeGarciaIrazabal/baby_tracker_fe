@@ -19,7 +19,7 @@ export class UnitUtilsService {
             case GrowthTypes.HEIGHT:
                 return "cm"
             case GrowthTypes.WEIGHT:
-                return "kg"
+                return "g"
         }
         return "~"
     }

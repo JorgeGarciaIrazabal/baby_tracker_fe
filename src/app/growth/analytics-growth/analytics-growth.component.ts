@@ -66,7 +66,7 @@ export class AnalyticsGrowthComponent implements OnInit {
         }
         const weights = {
             data: Enumerable.from(growths).where((g: Growth) => g.type === GrowthTypes.WEIGHT).select(selectDataSet).toArray(),
-            label: "Weight (kg)",
+            label: "Weight (g)",
             colors: {backgroundColor: "rgba(0, 255, 0, 0.1)"},
         }
         const heads = {
