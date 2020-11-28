@@ -7,4 +7,7 @@ export interface ChartDataSet {
 export enum Metric {
     Feed = "feed",
     Growth = "growth",
+    Sleep = "sleep",
+    Poop = "poop",
+    Pee = "pee",
 }

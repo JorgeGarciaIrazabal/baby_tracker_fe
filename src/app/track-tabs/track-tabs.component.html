@@ -2,6 +2,24 @@
     <ng-template let-ctx="ctx" #growthForm>
         <app-growth-form [ctx]="ctx"></app-growth-form>
     </ng-template>
+    <ng-template let-ctx="ctx" #growthRow>
+        <app-growth-row [ctx]="ctx"></app-growth-row>
+    </ng-template>
+
+    <ng-template let-ctx="ctx" #sleepForm>
+        <app-sleep-form [ctx]="ctx"></app-sleep-form>
+    </ng-template>
+    <ng-template let-ctx="ctx" #sleepRow>
+        <app-sleep-row [ctx]="ctx"></app-sleep-row>
+    </ng-template>
+
+    <ng-template let-ctx="ctx" #simpleGenericForm>
+        <app-simple-generic-form [ctx]="ctx"></app-simple-generic-form>
+    </ng-template>
+    <ng-template let-ctx="ctx" #simpleGenericRow>
+        <app-simple-generic-row [ctx]="ctx"></app-simple-generic-row>
+    </ng-template>
+
     <mat-tab>
         <ng-template mat-tab-label>
             <ion-icon class="tab-icon" name="list"></ion-icon>
@@ -14,9 +32,38 @@
                 [baby]="baby"
                 entitiesName="Growth"
                 [formTpl]="growthForm"
+                [rowTpl]="growthRow"
                 [createNewEntity]="createNewGrowth"
             >
-                <div>my new test</div>
+            </app-track-base>
+            <app-track-base
+                *ngSwitchCase="Metric.Sleep"
+                [baby]="baby"
+                entitiesName="Sleep"
+                [formTpl]="sleepForm"
+                [rowTpl]="sleepRow"
+                [createNewEntity]="createNewSleep"
+            >
+            </app-track-base>
+
+            <app-track-base
+                *ngSwitchCase="Metric.Pee"
+                [baby]="baby"
+                entitiesName="Pee"
+                [formTpl]="simpleGenericForm"
+                [rowTpl]="simpleGenericRow"
+                [createNewEntity]="createNewPee"
+            >
+            </app-track-base>
+
+            <app-track-base
+                *ngSwitchCase="Metric.Poop"
+                [baby]="baby"
+                entitiesName="Poop"
+                [formTpl]="simpleGenericForm"
+                [rowTpl]="simpleGenericRow"
+                [createNewEntity]="createNewPoop"
+            >
             </app-track-base>
         </div>
     </mat-tab>
@@ -30,6 +77,11 @@
             <div [ngSwitch]="metric">
                 <app-analytics-feed *ngSwitchCase="Metric.Feed" [baby]="baby"></app-analytics-feed>
                 <app-analytics-growth *ngSwitchCase="Metric.Growth" [baby]="baby"></app-analytics-growth>
+                <app-analytics-sleep *ngSwitchCase="Metric.Sleep" [baby]="baby"></app-analytics-sleep>
+                <app-analytics-simple-generic entityName="Pee" *ngSwitchCase="Metric.Pee"
+                                              [baby]="baby"></app-analytics-simple-generic>
+                <app-analytics-simple-generic entityName="Poop" *ngSwitchCase="Metric.Poop"
+                                              [baby]="baby"></app-analytics-simple-generic>
             </div>
         </ng-template>
     </mat-tab>

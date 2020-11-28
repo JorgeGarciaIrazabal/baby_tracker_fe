@@ -46,6 +46,13 @@ import {GrowthFormComponent} from "./growth/growth-form.component"
 import {AnalyticsSummaryComponent} from "./analytics-components/analytics-summary/analytics-summary.component"
 import {AnalyticsDateRangeSelectComponent} from "./analytics-components/analytics-date-range-select/analytics-date-range-select.component"
 import {AnalyticsGrowthComponent} from "./growth/analytics-growth/analytics-growth.component"
+import {GrowthRowComponent} from "./growth/growth-row.component";
+import {AnalyticsSleepComponent} from "./sleep/analytics-sleep/analytics-sleep.component";
+import {SleepFormComponent} from "./sleep/sleed-form.component";
+import {SleepRowComponent} from "./sleep/sleep-row.component";
+import {AnalyticsSimpleGenericComponent} from "./track-simple-generic/analytics-simple-generic/analytics-simple-generic.component";
+import {SimpleGenericFormComponent} from "./track-simple-generic/simple-generic-form.component";
+import {SimpleGenericRowComponent} from "./track-simple-generic/simple-generic-row.component";
 
 @NgModule({
     declarations: [
@@ -63,6 +70,16 @@ import {AnalyticsGrowthComponent} from "./growth/analytics-growth/analytics-grow
         AnalyticsSummaryComponent,
         AnalyticsDateRangeSelectComponent,
         AnalyticsGrowthComponent,
+        GrowthRowComponent,
+        AnalyticsGrowthComponent,
+        AnalyticsGrowthComponent,
+        AnalyticsSleepComponent,
+        SleepFormComponent,
+        GrowthRowComponent,
+        SleepRowComponent,
+        AnalyticsSimpleGenericComponent,
+        SimpleGenericFormComponent,
+        SimpleGenericRowComponent,
     ],
     entryComponents: [],
     imports: [

@@ -6,4 +6,7 @@ export * from './GrowthTypes';
 export * from './HTTPValidationError';
 export * from './Parent';
 export * from './ParentWithToken';
+export * from './Pee';
+export * from './Poop';
+export * from './Sleep';
 export * from './ValidationError';

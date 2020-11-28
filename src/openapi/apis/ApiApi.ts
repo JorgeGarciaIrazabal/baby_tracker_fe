@@ -24,15 +24,20 @@ import {
     Growth,
     GrowthFromJSON,
     GrowthToJSON,
-    HTTPValidationError,
-    HTTPValidationErrorFromJSON,
-    HTTPValidationErrorToJSON,
     Parent,
     ParentFromJSON,
     ParentToJSON,
     ParentWithToken,
     ParentWithTokenFromJSON,
-    ParentWithTokenToJSON,
+    Pee,
+    PeeFromJSON,
+    PeeToJSON,
+    Poop,
+    PoopFromJSON,
+    PoopToJSON,
+    Sleep,
+    SleepFromJSON,
+    SleepToJSON,
 } from '../models';
 
 export interface CreateBabyRequest {
@@ -50,12 +55,42 @@ export interface CreateGrowthRequest {
     authorization?: string;
 }
 
+export interface CreatePeeRequest {
+    pee: Pee;
+    authorization?: string;
+}
+
+export interface CreatePoopRequest {
+    poop: Poop;
+    authorization?: string;
+}
+
+export interface CreateSleepRequest {
+    sleep: Sleep;
+    authorization?: string;
+}
+
 export interface DeleteFeedRequest {
     id: number;
     authorization?: string;
 }
 
 export interface DeleteGrowthRequest {
+    id: number;
+    authorization?: string;
+}
+
+export interface DeletePeeRequest {
+    id: number;
+    authorization?: string;
+}
+
+export interface DeletePoopRequest {
+    id: number;
+    authorization?: string;
+}
+
+export interface DeleteSleepRequest {
     id: number;
     authorization?: string;
 }
@@ -73,6 +108,29 @@ export interface GetBabyGrowthsRequest {
     babyId: number;
     page?: number;
     pageSize?: number;
+    authorization?: string;
+}
+
+export interface GetBabyPeesRequest {
+    babyId: number;
+    page?: number;
+    pageSize?: number;
+    authorization?: string;
+}
+
+export interface GetBabyPoopsRequest {
+    babyId: number;
+    page?: number;
+    pageSize?: number;
+    authorization?: string;
+}
+
+export interface GetBabySleepsRequest {
+    babyId: number;
+    page?: number;
+    pageSize?: number;
+    startAt?: Date;
+    endAt?: Date;
     authorization?: string;
 }
 
@@ -128,8 +186,23 @@ export interface UpdateGrowthRequest {
     authorization?: string;
 }
 
+export interface UpdatePeeRequest {
+    pee: Pee;
+    authorization?: string;
+}
+
+export interface UpdatePoopRequest {
+    poop: Poop;
+    authorization?: string;
+}
+
+export interface UpdateSleepRequest {
+    sleep: Sleep;
+    authorization?: string;
+}
+
 /**
- * 
+ *
  */
 export class ApiApi extends runtime.BaseAPI {
 
@@ -245,11 +318,122 @@ export class ApiApi extends runtime.BaseAPI {
     }
 
     /**
+     * Create Pee
+     */
+    async createPeeRaw(requestParameters: CreatePeeRequest): Promise<runtime.ApiResponse<Pee>> {
+        if (requestParameters.pee === null || requestParameters.pee === undefined) {
+            throw new runtime.RequiredError('pee', 'Required parameter requestParameters.pee was null or undefined when calling createPee.');
+        }
+
+        const queryParameters: runtime.HTTPQuery = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (requestParameters.authorization !== undefined && requestParameters.authorization !== null) {
+            headerParameters['Authorization'] = String(requestParameters.authorization);
+        }
+
+        const response = await this.request({
+            path: `/pee`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: PeeToJSON(requestParameters.pee),
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => PeeFromJSON(jsonValue));
+    }
+
+    /**
+     * Create Pee
+     */
+    async createPee(requestParameters: CreatePeeRequest): Promise<Pee> {
+        const response = await this.createPeeRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     * Create Poop
+     */
+    async createPoopRaw(requestParameters: CreatePoopRequest): Promise<runtime.ApiResponse<Poop>> {
+        if (requestParameters.poop === null || requestParameters.poop === undefined) {
+            throw new runtime.RequiredError('poop', 'Required parameter requestParameters.poop was null or undefined when calling createPoop.');
+        }
+
+        const queryParameters: runtime.HTTPQuery = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (requestParameters.authorization !== undefined && requestParameters.authorization !== null) {
+            headerParameters['Authorization'] = String(requestParameters.authorization);
+        }
+
+        const response = await this.request({
+            path: `/poop`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: PoopToJSON(requestParameters.poop),
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => PoopFromJSON(jsonValue));
+    }
+
+    /**
+     * Create Poop
+     */
+    async createPoop(requestParameters: CreatePoopRequest): Promise<Poop> {
+        const response = await this.createPoopRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     * Create Sleep
+     */
+    async createSleepRaw(requestParameters: CreateSleepRequest): Promise<runtime.ApiResponse<Sleep>> {
+        if (requestParameters.sleep === null || requestParameters.sleep === undefined) {
+            throw new runtime.RequiredError('sleep', 'Required parameter requestParameters.sleep was null or undefined when calling createSleep.');
+        }
+
+        const queryParameters: runtime.HTTPQuery = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (requestParameters.authorization !== undefined && requestParameters.authorization !== null) {
+            headerParameters['Authorization'] = String(requestParameters.authorization);
+        }
+
+        const response = await this.request({
+            path: `/sleep`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: SleepToJSON(requestParameters.sleep),
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => SleepFromJSON(jsonValue));
+    }
+
+    /**
+     * Create Sleep
+     */
+    async createSleep(requestParameters: CreateSleepRequest): Promise<Sleep> {
+        const response = await this.createSleepRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
      * Delete Feed
      */
     async deleteFeedRaw(requestParameters: DeleteFeedRequest): Promise<runtime.ApiResponse<Feed>> {
         if (requestParameters.id === null || requestParameters.id === undefined) {
-            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling deleteFeed.');
+            throw new runtime.RequiredError('id', 'Required parameter requestParameters.id was null or undefined when calling deleteFeed.');
         }
 
         const queryParameters: runtime.HTTPQuery = {};
@@ -313,11 +497,113 @@ export class ApiApi extends runtime.BaseAPI {
     }
 
     /**
+     * Delete Pee
+     */
+    async deletePeeRaw(requestParameters: DeletePeeRequest): Promise<runtime.ApiResponse<Pee>> {
+        if (requestParameters.id === null || requestParameters.id === undefined) {
+            throw new runtime.RequiredError('id', 'Required parameter requestParameters.id was null or undefined when calling deletePee.');
+        }
+
+        const queryParameters: runtime.HTTPQuery = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (requestParameters.authorization !== undefined && requestParameters.authorization !== null) {
+            headerParameters['Authorization'] = String(requestParameters.authorization);
+        }
+
+        const response = await this.request({
+            path: `/pee/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
+            method: 'DELETE',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => PeeFromJSON(jsonValue));
+    }
+
+    /**
+     * Delete Pee
+     */
+    async deletePee(requestParameters: DeletePeeRequest): Promise<Pee> {
+        const response = await this.deletePeeRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     * Delete Poop
+     */
+    async deletePoopRaw(requestParameters: DeletePoopRequest): Promise<runtime.ApiResponse<Poop>> {
+        if (requestParameters.id === null || requestParameters.id === undefined) {
+            throw new runtime.RequiredError('id', 'Required parameter requestParameters.id was null or undefined when calling deletePoop.');
+        }
+
+        const queryParameters: runtime.HTTPQuery = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (requestParameters.authorization !== undefined && requestParameters.authorization !== null) {
+            headerParameters['Authorization'] = String(requestParameters.authorization);
+        }
+
+        const response = await this.request({
+            path: `/poop/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
+            method: 'DELETE',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => PoopFromJSON(jsonValue));
+    }
+
+    /**
+     * Delete Poop
+     */
+    async deletePoop(requestParameters: DeletePoopRequest): Promise<Poop> {
+        const response = await this.deletePoopRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     * Delete Sleep
+     */
+    async deleteSleepRaw(requestParameters: DeleteSleepRequest): Promise<runtime.ApiResponse<Sleep>> {
+        if (requestParameters.id === null || requestParameters.id === undefined) {
+            throw new runtime.RequiredError('id', 'Required parameter requestParameters.id was null or undefined when calling deleteSleep.');
+        }
+
+        const queryParameters: runtime.HTTPQuery = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (requestParameters.authorization !== undefined && requestParameters.authorization !== null) {
+            headerParameters['Authorization'] = String(requestParameters.authorization);
+        }
+
+        const response = await this.request({
+            path: `/sleep/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
+            method: 'DELETE',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => SleepFromJSON(jsonValue));
+    }
+
+    /**
+     * Delete Sleep
+     */
+    async deleteSleep(requestParameters: DeleteSleepRequest): Promise<Sleep> {
+        const response = await this.deleteSleepRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
      * Get Baby Feeds
      */
     async getBabyFeedsRaw(requestParameters: GetBabyFeedsRequest): Promise<runtime.ApiResponse<Array<Feed>>> {
         if (requestParameters.babyId === null || requestParameters.babyId === undefined) {
-            throw new runtime.RequiredError('babyId','Required parameter requestParameters.babyId was null or undefined when calling getBabyFeeds.');
+            throw new runtime.RequiredError('babyId', 'Required parameter requestParameters.babyId was null or undefined when calling getBabyFeeds.');
         }
 
         const queryParameters: runtime.HTTPQuery = {};
@@ -401,6 +687,140 @@ export class ApiApi extends runtime.BaseAPI {
      */
     async getBabyGrowths(requestParameters: GetBabyGrowthsRequest): Promise<Array<Growth>> {
         const response = await this.getBabyGrowthsRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     * Get Baby Pees
+     */
+    async getBabyPeesRaw(requestParameters: GetBabyPeesRequest): Promise<runtime.ApiResponse<Array<Pee>>> {
+        if (requestParameters.babyId === null || requestParameters.babyId === undefined) {
+            throw new runtime.RequiredError('babyId', 'Required parameter requestParameters.babyId was null or undefined when calling getBabyPees.');
+        }
+
+        const queryParameters: runtime.HTTPQuery = {};
+
+        if (requestParameters.page !== undefined) {
+            queryParameters['page'] = requestParameters.page;
+        }
+
+        if (requestParameters.pageSize !== undefined) {
+            queryParameters['page_size'] = requestParameters.pageSize;
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (requestParameters.authorization !== undefined && requestParameters.authorization !== null) {
+            headerParameters['Authorization'] = String(requestParameters.authorization);
+        }
+
+        const response = await this.request({
+            path: `/baby/{baby_id}/pee`.replace(`{${"baby_id"}}`, encodeURIComponent(String(requestParameters.babyId))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(PeeFromJSON));
+    }
+
+    /**
+     * Get Baby Pees
+     */
+    async getBabyPees(requestParameters: GetBabyPeesRequest): Promise<Array<Pee>> {
+        const response = await this.getBabyPeesRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     * Get Baby Poops
+     */
+    async getBabyPoopsRaw(requestParameters: GetBabyPoopsRequest): Promise<runtime.ApiResponse<Array<Poop>>> {
+        if (requestParameters.babyId === null || requestParameters.babyId === undefined) {
+            throw new runtime.RequiredError('babyId', 'Required parameter requestParameters.babyId was null or undefined when calling getBabyPoops.');
+        }
+
+        const queryParameters: runtime.HTTPQuery = {};
+
+        if (requestParameters.page !== undefined) {
+            queryParameters['page'] = requestParameters.page;
+        }
+
+        if (requestParameters.pageSize !== undefined) {
+            queryParameters['page_size'] = requestParameters.pageSize;
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (requestParameters.authorization !== undefined && requestParameters.authorization !== null) {
+            headerParameters['Authorization'] = String(requestParameters.authorization);
+        }
+
+        const response = await this.request({
+            path: `/baby/{baby_id}/poop`.replace(`{${"baby_id"}}`, encodeURIComponent(String(requestParameters.babyId))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(PoopFromJSON));
+    }
+
+    /**
+     * Get Baby Poops
+     */
+    async getBabyPoops(requestParameters: GetBabyPoopsRequest): Promise<Array<Poop>> {
+        const response = await this.getBabyPoopsRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     * Get Baby Sleeps
+     */
+    async getBabySleepsRaw(requestParameters: GetBabySleepsRequest): Promise<runtime.ApiResponse<Array<Sleep>>> {
+        if (requestParameters.babyId === null || requestParameters.babyId === undefined) {
+            throw new runtime.RequiredError('babyId', 'Required parameter requestParameters.babyId was null or undefined when calling getBabySleeps.');
+        }
+
+        const queryParameters: runtime.HTTPQuery = {};
+
+        if (requestParameters.page !== undefined) {
+            queryParameters['page'] = requestParameters.page;
+        }
+
+        if (requestParameters.pageSize !== undefined) {
+            queryParameters['page_size'] = requestParameters.pageSize;
+        }
+
+        if (requestParameters.startAt !== undefined) {
+            queryParameters['start_at'] = (requestParameters.startAt as any).toISOString();
+        }
+
+        if (requestParameters.endAt !== undefined) {
+            queryParameters['end_at'] = (requestParameters.endAt as any).toISOString();
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (requestParameters.authorization !== undefined && requestParameters.authorization !== null) {
+            headerParameters['Authorization'] = String(requestParameters.authorization);
+        }
+
+        const response = await this.request({
+            path: `/baby/{baby_id}/sleep`.replace(`{${"baby_id"}}`, encodeURIComponent(String(requestParameters.babyId))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(SleepFromJSON));
+    }
+
+    /**
+     * Get Baby Sleeps
+     */
+    async getBabySleeps(requestParameters: GetBabySleepsRequest): Promise<Array<Sleep>> {
+        const response = await this.getBabySleepsRaw(requestParameters);
         return await response.value();
     }
 
@@ -773,6 +1193,117 @@ export class ApiApi extends runtime.BaseAPI {
      */
     async updateGrowth(requestParameters: UpdateGrowthRequest): Promise<Growth> {
         const response = await this.updateGrowthRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     * Update Pee
+     */
+    async updatePeeRaw(requestParameters: UpdatePeeRequest): Promise<runtime.ApiResponse<Pee>> {
+        if (requestParameters.pee === null || requestParameters.pee === undefined) {
+            throw new runtime.RequiredError('pee', 'Required parameter requestParameters.pee was null or undefined when calling updatePee.');
+        }
+
+        const queryParameters: runtime.HTTPQuery = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (requestParameters.authorization !== undefined && requestParameters.authorization !== null) {
+            headerParameters['Authorization'] = String(requestParameters.authorization);
+        }
+
+        const response = await this.request({
+            path: `/pee`,
+            method: 'PUT',
+            headers: headerParameters,
+            query: queryParameters,
+            body: PeeToJSON(requestParameters.pee),
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => PeeFromJSON(jsonValue));
+    }
+
+    /**
+     * Update Pee
+     */
+    async updatePee(requestParameters: UpdatePeeRequest): Promise<Pee> {
+        const response = await this.updatePeeRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     * Update Poop
+     */
+    async updatePoopRaw(requestParameters: UpdatePoopRequest): Promise<runtime.ApiResponse<Poop>> {
+        if (requestParameters.poop === null || requestParameters.poop === undefined) {
+            throw new runtime.RequiredError('poop', 'Required parameter requestParameters.poop was null or undefined when calling updatePoop.');
+        }
+
+        const queryParameters: runtime.HTTPQuery = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (requestParameters.authorization !== undefined && requestParameters.authorization !== null) {
+            headerParameters['Authorization'] = String(requestParameters.authorization);
+        }
+
+        const response = await this.request({
+            path: `/poop`,
+            method: 'PUT',
+            headers: headerParameters,
+            query: queryParameters,
+            body: PoopToJSON(requestParameters.poop),
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => PoopFromJSON(jsonValue));
+    }
+
+    /**
+     * Update Poop
+     */
+    async updatePoop(requestParameters: UpdatePoopRequest): Promise<Poop> {
+        const response = await this.updatePoopRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     * Update Sleep
+     */
+    async updateSleepRaw(requestParameters: UpdateSleepRequest): Promise<runtime.ApiResponse<Sleep>> {
+        if (requestParameters.sleep === null || requestParameters.sleep === undefined) {
+            throw new runtime.RequiredError('sleep', 'Required parameter requestParameters.sleep was null or undefined when calling updateSleep.');
+        }
+
+        const queryParameters: runtime.HTTPQuery = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (requestParameters.authorization !== undefined && requestParameters.authorization !== null) {
+            headerParameters['Authorization'] = String(requestParameters.authorization);
+        }
+
+        const response = await this.request({
+            path: `/sleep`,
+            method: 'PUT',
+            headers: headerParameters,
+            query: queryParameters,
+            body: SleepToJSON(requestParameters.sleep),
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => SleepFromJSON(jsonValue));
+    }
+
+    /**
+     * Update Sleep
+     */
+    async updateSleep(requestParameters: UpdateSleepRequest): Promise<Sleep> {
+        const response = await this.updateSleepRaw(requestParameters);
         return await response.value();
     }
 

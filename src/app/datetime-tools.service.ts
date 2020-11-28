@@ -2,7 +2,6 @@ import {Injectable} from "@angular/core"
 // @ts-ignore
 import moment from "moment"
 import humanizeDuration from "humanize-duration"
-import {Feed} from "../openapi/models"
 
 @Injectable({
     providedIn: "root"
@@ -33,12 +32,12 @@ export class DatetimeToolsService {
         return momentDate.format("hh:mm a").toUpperCase()
     }
 
-    dateDiffMinutes(feed: Feed): number {
-        if (feed.endAt == null) {
+    dateDiffMinutes(entity): number {
+        if (entity.endAt == null) {
             return 0
         }
         // @ts-ignore
-        const diffMs: number = (feed.endAt - feed.startAt) // milliseconds
+        const diffMs: number = (entity.endAt - entity.startAt) // milliseconds
         return Math.floor(diffMs / 60000)
     }
 
@@ -64,5 +63,9 @@ export class DatetimeToolsService {
             moment(startAt).diff(moment(endAt)),
             {units: ["d", "h", "m"], maxDecimalPoints: 0},
         )
+    }
+
+    humanizeDiffMinutes(entity: any) {
+        return moment.duration(moment(entity.endAt).diff(moment(entity.startAt))).asMinutes()
     }
 }

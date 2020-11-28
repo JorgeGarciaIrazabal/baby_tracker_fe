@@ -1,5 +1,5 @@
 import {Component, Input, OnInit, TemplateRef, ViewChild} from "@angular/core"
-import {Baby, Growth, GrowthTypes} from "../../openapi/models"
+import {Baby, Growth, GrowthTypes, Pee, Poop, Sleep} from "../../openapi/models"
 import {Metric} from "../models"
 
 @Component({
@@ -28,7 +28,32 @@ export class TrackTabsComponent implements OnInit {
             babyId: number = baby.id
             id: number = null
             measure = 0
-            type: GrowthTypes =  GrowthTypes.WEIGHT
+            type: GrowthTypes = GrowthTypes.WEIGHT
+        }
+    }
+
+    createNewSleep(baby: Baby) {
+        return new class implements Sleep {
+            startAt: Date = new Date()
+            endAt: Date = null
+            babyId: number = baby.id
+            id: number = null
+        }
+    }
+
+    createNewPee(baby: Baby) {
+        return new class implements Pee {
+            at: Date = new Date()
+            babyId: number = baby.id
+            id: number = null
+        }
+    }
+
+    createNewPoop(baby: Baby) {
+        return new class implements Poop {
+            at: Date = new Date()
+            babyId: number = baby.id
+            id: number = null
         }
     }
 }

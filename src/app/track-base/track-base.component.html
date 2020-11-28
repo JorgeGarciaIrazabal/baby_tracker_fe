@@ -10,13 +10,12 @@
     >
       {{this.dtt.humanizeDate(getEntityStartDate(entity))}}
     </div>
-    <div class="row-padding" >
+    <div class="row-padding">
       <div *ngIf="entity.id===editingId">
         <ng-container *ngTemplateOutlet="formTpl; context: formTplContext"></ng-container>
       </div>
-      <div *ngIf="entity.id!==editingId" (click)="updateEditingId(entity)" class="row-div">
-        <div mat-line>{{entity.type}} - {{dtt.humanizeTime(getEntityStartDate(entity))}} - {{entity.measure}} {{uu.getGrowthShortUnit(entity)}}
-        </div>
+      <div *ngIf="entity.id!==editingId" (click)="updateEditingId(entity)">
+        <ng-container *ngTemplateOutlet="rowTpl; context: getRowCtx(entity)"></ng-container>
       </div>
     </div>
   </div>

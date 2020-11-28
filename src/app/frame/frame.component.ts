@@ -27,8 +27,11 @@ export class FrameComponent implements OnInit {
     public selectingNewParent: boolean
     public newParentsEmail: string
     public metrics = [
-        { value: Metric.Feed, label: "Feeds" },
-        { value: Metric.Growth, label: "Growth" }
+        {value: Metric.Feed, label: "Feeds"},
+        {value: Metric.Pee, label: "Pee"},
+        {value: Metric.Poop, label: "Poop"},
+        {value: Metric.Sleep, label: "Sleep"},
+        {value: Metric.Growth, label: "Growth"},
     ]
     public metricSelected: Metric = Metric.Feed
 

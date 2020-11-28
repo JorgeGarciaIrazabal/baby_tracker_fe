@@ -1,16 +1,5 @@
-import {
-    AfterViewInit,
-    Component,
-    ContentChild,
-    ContentChildren,
-    Input,
-    OnDestroy,
-    OnInit,
-    TemplateRef,
-    ViewChild,
-    ViewContainerRef
-} from "@angular/core"
-import {Baby, Feed, FeedTypes, Growth} from "../../openapi/models"
+import {Component, Input, OnDestroy, OnInit, TemplateRef} from "@angular/core"
+import {Baby} from "../../openapi/models"
 import {FormBuilder} from "@angular/forms"
 import {ApiService} from "../api.service"
 import {MatDialog} from "@angular/material/dialog"
@@ -25,6 +14,7 @@ import {UnitUtilsService} from "../unit-utils.service"
 })
 export class TrackBaseComponent implements OnInit, OnDestroy {
     @Input() formTpl: TemplateRef<any>
+    @Input() rowTpl: TemplateRef<any>
     @Input() baby: Baby
     @Input() createNewEntity: (baby: Baby) => any
     @Input() pageSize = 10
@@ -66,7 +56,7 @@ export class TrackBaseComponent implements OnInit, OnDestroy {
             if (this.editingId === null) {
                 this.refreshList()
             }
-        }, 5000)
+        }, 15000)
     }
 
     async ngOnDestroy() {
@@ -131,6 +121,15 @@ export class TrackBaseComponent implements OnInit, OnDestroy {
                 message: `failed updating  ${this.entitiesName.toLowerCase()}`,
                 duration: 1
             })).present()
+        }
+    }
+
+    getRowCtx(entity) {
+        return {
+            ctx: {
+                entity: entity,
+                baby: this.baby,
+            }
         }
     }
 
