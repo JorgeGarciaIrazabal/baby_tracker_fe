@@ -24,11 +24,15 @@ import {
     Growth,
     GrowthFromJSON,
     GrowthToJSON,
+    HTTPValidationError,
+    HTTPValidationErrorFromJSON,
+    HTTPValidationErrorToJSON,
     Parent,
     ParentFromJSON,
     ParentToJSON,
     ParentWithToken,
     ParentWithTokenFromJSON,
+    ParentWithTokenToJSON,
     Pee,
     PeeFromJSON,
     PeeToJSON,
@@ -202,7 +206,7 @@ export interface UpdateSleepRequest {
 }
 
 /**
- *
+ * 
  */
 export class ApiApi extends runtime.BaseAPI {
 
@@ -322,7 +326,7 @@ export class ApiApi extends runtime.BaseAPI {
      */
     async createPeeRaw(requestParameters: CreatePeeRequest): Promise<runtime.ApiResponse<Pee>> {
         if (requestParameters.pee === null || requestParameters.pee === undefined) {
-            throw new runtime.RequiredError('pee', 'Required parameter requestParameters.pee was null or undefined when calling createPee.');
+            throw new runtime.RequiredError('pee','Required parameter requestParameters.pee was null or undefined when calling createPee.');
         }
 
         const queryParameters: runtime.HTTPQuery = {};
@@ -359,7 +363,7 @@ export class ApiApi extends runtime.BaseAPI {
      */
     async createPoopRaw(requestParameters: CreatePoopRequest): Promise<runtime.ApiResponse<Poop>> {
         if (requestParameters.poop === null || requestParameters.poop === undefined) {
-            throw new runtime.RequiredError('poop', 'Required parameter requestParameters.poop was null or undefined when calling createPoop.');
+            throw new runtime.RequiredError('poop','Required parameter requestParameters.poop was null or undefined when calling createPoop.');
         }
 
         const queryParameters: runtime.HTTPQuery = {};
@@ -396,7 +400,7 @@ export class ApiApi extends runtime.BaseAPI {
      */
     async createSleepRaw(requestParameters: CreateSleepRequest): Promise<runtime.ApiResponse<Sleep>> {
         if (requestParameters.sleep === null || requestParameters.sleep === undefined) {
-            throw new runtime.RequiredError('sleep', 'Required parameter requestParameters.sleep was null or undefined when calling createSleep.');
+            throw new runtime.RequiredError('sleep','Required parameter requestParameters.sleep was null or undefined when calling createSleep.');
         }
 
         const queryParameters: runtime.HTTPQuery = {};
@@ -433,7 +437,7 @@ export class ApiApi extends runtime.BaseAPI {
      */
     async deleteFeedRaw(requestParameters: DeleteFeedRequest): Promise<runtime.ApiResponse<Feed>> {
         if (requestParameters.id === null || requestParameters.id === undefined) {
-            throw new runtime.RequiredError('id', 'Required parameter requestParameters.id was null or undefined when calling deleteFeed.');
+            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling deleteFeed.');
         }
 
         const queryParameters: runtime.HTTPQuery = {};
@@ -501,7 +505,7 @@ export class ApiApi extends runtime.BaseAPI {
      */
     async deletePeeRaw(requestParameters: DeletePeeRequest): Promise<runtime.ApiResponse<Pee>> {
         if (requestParameters.id === null || requestParameters.id === undefined) {
-            throw new runtime.RequiredError('id', 'Required parameter requestParameters.id was null or undefined when calling deletePee.');
+            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling deletePee.');
         }
 
         const queryParameters: runtime.HTTPQuery = {};
@@ -535,7 +539,7 @@ export class ApiApi extends runtime.BaseAPI {
      */
     async deletePoopRaw(requestParameters: DeletePoopRequest): Promise<runtime.ApiResponse<Poop>> {
         if (requestParameters.id === null || requestParameters.id === undefined) {
-            throw new runtime.RequiredError('id', 'Required parameter requestParameters.id was null or undefined when calling deletePoop.');
+            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling deletePoop.');
         }
 
         const queryParameters: runtime.HTTPQuery = {};
@@ -569,7 +573,7 @@ export class ApiApi extends runtime.BaseAPI {
      */
     async deleteSleepRaw(requestParameters: DeleteSleepRequest): Promise<runtime.ApiResponse<Sleep>> {
         if (requestParameters.id === null || requestParameters.id === undefined) {
-            throw new runtime.RequiredError('id', 'Required parameter requestParameters.id was null or undefined when calling deleteSleep.');
+            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling deleteSleep.');
         }
 
         const queryParameters: runtime.HTTPQuery = {};
@@ -603,7 +607,7 @@ export class ApiApi extends runtime.BaseAPI {
      */
     async getBabyFeedsRaw(requestParameters: GetBabyFeedsRequest): Promise<runtime.ApiResponse<Array<Feed>>> {
         if (requestParameters.babyId === null || requestParameters.babyId === undefined) {
-            throw new runtime.RequiredError('babyId', 'Required parameter requestParameters.babyId was null or undefined when calling getBabyFeeds.');
+            throw new runtime.RequiredError('babyId','Required parameter requestParameters.babyId was null or undefined when calling getBabyFeeds.');
         }
 
         const queryParameters: runtime.HTTPQuery = {};
@@ -695,7 +699,7 @@ export class ApiApi extends runtime.BaseAPI {
      */
     async getBabyPeesRaw(requestParameters: GetBabyPeesRequest): Promise<runtime.ApiResponse<Array<Pee>>> {
         if (requestParameters.babyId === null || requestParameters.babyId === undefined) {
-            throw new runtime.RequiredError('babyId', 'Required parameter requestParameters.babyId was null or undefined when calling getBabyPees.');
+            throw new runtime.RequiredError('babyId','Required parameter requestParameters.babyId was null or undefined when calling getBabyPees.');
         }
 
         const queryParameters: runtime.HTTPQuery = {};
@@ -737,7 +741,7 @@ export class ApiApi extends runtime.BaseAPI {
      */
     async getBabyPoopsRaw(requestParameters: GetBabyPoopsRequest): Promise<runtime.ApiResponse<Array<Poop>>> {
         if (requestParameters.babyId === null || requestParameters.babyId === undefined) {
-            throw new runtime.RequiredError('babyId', 'Required parameter requestParameters.babyId was null or undefined when calling getBabyPoops.');
+            throw new runtime.RequiredError('babyId','Required parameter requestParameters.babyId was null or undefined when calling getBabyPoops.');
         }
 
         const queryParameters: runtime.HTTPQuery = {};
@@ -779,7 +783,7 @@ export class ApiApi extends runtime.BaseAPI {
      */
     async getBabySleepsRaw(requestParameters: GetBabySleepsRequest): Promise<runtime.ApiResponse<Array<Sleep>>> {
         if (requestParameters.babyId === null || requestParameters.babyId === undefined) {
-            throw new runtime.RequiredError('babyId', 'Required parameter requestParameters.babyId was null or undefined when calling getBabySleeps.');
+            throw new runtime.RequiredError('babyId','Required parameter requestParameters.babyId was null or undefined when calling getBabySleeps.');
         }
 
         const queryParameters: runtime.HTTPQuery = {};
@@ -1201,7 +1205,7 @@ export class ApiApi extends runtime.BaseAPI {
      */
     async updatePeeRaw(requestParameters: UpdatePeeRequest): Promise<runtime.ApiResponse<Pee>> {
         if (requestParameters.pee === null || requestParameters.pee === undefined) {
-            throw new runtime.RequiredError('pee', 'Required parameter requestParameters.pee was null or undefined when calling updatePee.');
+            throw new runtime.RequiredError('pee','Required parameter requestParameters.pee was null or undefined when calling updatePee.');
         }
 
         const queryParameters: runtime.HTTPQuery = {};
@@ -1238,7 +1242,7 @@ export class ApiApi extends runtime.BaseAPI {
      */
     async updatePoopRaw(requestParameters: UpdatePoopRequest): Promise<runtime.ApiResponse<Poop>> {
         if (requestParameters.poop === null || requestParameters.poop === undefined) {
-            throw new runtime.RequiredError('poop', 'Required parameter requestParameters.poop was null or undefined when calling updatePoop.');
+            throw new runtime.RequiredError('poop','Required parameter requestParameters.poop was null or undefined when calling updatePoop.');
         }
 
         const queryParameters: runtime.HTTPQuery = {};
@@ -1275,7 +1279,7 @@ export class ApiApi extends runtime.BaseAPI {
      */
     async updateSleepRaw(requestParameters: UpdateSleepRequest): Promise<runtime.ApiResponse<Sleep>> {
         if (requestParameters.sleep === null || requestParameters.sleep === undefined) {
-            throw new runtime.RequiredError('sleep', 'Required parameter requestParameters.sleep was null or undefined when calling updateSleep.');
+            throw new runtime.RequiredError('sleep','Required parameter requestParameters.sleep was null or undefined when calling updateSleep.');
         }
 
         const queryParameters: runtime.HTTPQuery = {};

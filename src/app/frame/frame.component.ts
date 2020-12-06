@@ -24,7 +24,7 @@ export class FrameComponent implements OnInit {
             map(result => result.matches),
             shareReplay()
         )
-    public selectingNewParent: boolean
+    public addingNewParent: boolean
     public newParentsEmail: string
     public metrics = [
         {value: Metric.Feed, label: "Feeds"},
@@ -86,8 +86,8 @@ export class FrameComponent implements OnInit {
         })
     }
 
-    setSelectingNewParent(value: boolean) {
-        this.selectingNewParent = value
+    setAddingNewParent(value: boolean) {
+        this.addingNewParent = value
     }
 
     async setNewParent() {
@@ -102,14 +102,12 @@ export class FrameComponent implements OnInit {
                 duration: 1000,
             })).present()
         }
-        this.selectingNewParent = false
+        this.addingNewParent = false
     }
 
     showNewParent() {
         return this.baby !== null &&
-            !this.selectingNewParent &&
-            (this.baby.fatherId == null ||
-                this.baby.motherId == null)
+            !this.addingNewParent
     }
 
     async doRefresh() {

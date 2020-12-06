@@ -6,6 +6,8 @@
   "scripts": {
     "ng": "ng",
     "start": "node server.js",
+    "dev": "ionic serve",
+    "run": "ng run app:serve --host=localhost --port=8100",
     "build": "ng build --prod --outputPath=dist",
     "heroku-postbuild": "ng build --aot --prod=true  --outputPath=dist --sourceMap=false",
     "generate_api": "openapi-generator-cli generate -g typescript-fetch -i ../baby_tracker_be/src/openapi.json -o ./src/openapi",

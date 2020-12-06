@@ -39,16 +39,10 @@ export interface Baby {
     name: string;
     /**
      * 
-     * @type {number}
+     * @type {Array<number>}
      * @memberof Baby
      */
-    fatherId?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof Baby
-     */
-    motherId?: number;
+    parentIds?: Array<number>;
 }
 
 export function BabyFromJSON(json: any): Baby {
@@ -64,8 +58,7 @@ export function BabyFromJSONTyped(json: any, ignoreDiscriminator: boolean): Baby
         'id': !exists(json, 'id') ? undefined : json['id'],
         'birthDate': (new Date(json['birth_date'])),
         'name': json['name'],
-        'fatherId': !exists(json, 'father_id') ? undefined : json['father_id'],
-        'motherId': !exists(json, 'mother_id') ? undefined : json['mother_id'],
+        'parentIds': !exists(json, 'parent_ids') ? undefined : json['parent_ids'],
     };
 }
 
@@ -81,8 +74,7 @@ export function BabyToJSON(value?: Baby | null): any {
         'id': value.id,
         'birth_date': (value.birthDate.toISOString()),
         'name': value.name,
-        'father_id': value.fatherId,
-        'mother_id': value.motherId,
+        'parent_ids': value.parentIds,
     };
 }
 

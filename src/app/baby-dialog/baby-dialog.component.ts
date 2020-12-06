@@ -19,10 +19,9 @@ export class BabyDialogComponent implements OnInit {
     ) {
         this.baby = new class implements Baby {
             birthDate: Date = new Date()
-            fatherId: number
             id: number
-            motherId: number
             name: string
+            parentIds: Array<number> = []
         }
     }
 
@@ -33,15 +32,6 @@ export class BabyDialogComponent implements OnInit {
     async ngOnInit() {
         await this.storage.ready()
         this.parent = await this.storage.get("self")
-    }
-
-    parentChosen(parent: string) {
-        if (parent === "father") {
-            this.baby.fatherId = this.parent.id
-            this.baby.motherId = null
-        } else {
-            this.baby.fatherId = null
-            this.baby.motherId = this.parent.id
-        }
+        this.baby.parentIds = [this.parent.id]
     }
 }

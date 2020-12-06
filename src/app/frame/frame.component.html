@@ -14,18 +14,18 @@
                 remove baby {{baby.name}}
             </a>
 
-            <a mat-list-item *ngIf="showNewParent()" (click)="setSelectingNewParent(true)">
+            <a mat-list-item (click)="setAddingNewParent(true)">
                 <mat-icon>person</mat-icon>
-                select other parent
+                Add other parent
             </a>
-            <div *ngIf="selectingNewParent" class="ion-padding">
+            <div *ngIf="addingNewParent" class="ion-padding">
                 <mat-label>
                     <ion-icon name="email"></ion-icon>
                     New Parent's email
                 </mat-label>
                 <input matInput type="email" [(ngModel)]="newParentsEmail" placeholder="Ex: myeamil@domain.com">
                 <div class="row">
-                    <button mat-raised-button (click)="setSelectingNewParent(false)">Cancel</button>
+                    <button mat-raised-button (click)="setAddingNewParent(false)">Cancel</button>
                     <button mat-raised-button color="primary" (click)="setNewParent()">
                         Ok
                     </button>
