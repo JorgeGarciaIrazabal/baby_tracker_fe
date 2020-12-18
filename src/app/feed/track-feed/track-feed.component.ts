@@ -1,5 +1,5 @@
 import {Component, Input, OnDestroy, OnInit} from "@angular/core"
-import {Baby, Feed, FeedTypes, Parent} from "../../../openapi/models"
+import {Baby, Feed, FeedTypes, Parent} from "../../../openapi"
 import {ApiService} from "../../api.service"
 import {MatDialog} from "@angular/material/dialog"
 import {ToastController} from "@ionic/angular"
@@ -18,6 +18,7 @@ export class TrackFeedComponent implements OnInit, OnDestroy {
     public feeds: Array<Feed>
     public editingFeed: number = null
     public self = this
+    scrollDisabled = true
     private interval = null
     private pageSize = 10
     private pageSizeTotal = 30
@@ -35,6 +36,9 @@ export class TrackFeedComponent implements OnInit, OnDestroy {
             }
             this.refreshFeedings()
         }, 5000)
+        setTimeout(() => {
+            this.scrollDisabled = false
+        }, 300)
     }
 
     async ngOnDestroy() {
@@ -125,7 +129,6 @@ export class TrackFeedComponent implements OnInit, OnDestroy {
             return f1.startAt < f2.startAt ? 1 : -1
         })
     }
-
 
     async onRemove(feed: Feed) {
         await this.apiService.api.deleteFeed({id: feed.id})

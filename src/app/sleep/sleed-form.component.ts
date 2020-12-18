@@ -66,6 +66,7 @@ export interface SleepFromCtx {
 
                 <mat-card-actions class="ion-padding-start">
                     <div class="simple-row">
+                        <button mat-stroked-button (click)="setEndNow()">End Now</button>
                         <span class="spacer"></span>
                         <button mat-raised-button (click)="ctx.onCancel()">Cancel</button>
                         <button
@@ -87,8 +88,8 @@ export class SleepFormComponent implements OnInit, OnChanges {
     sleepForm = this.fb.group({
         startDate: [null, Validators.required],
         startTime: [null, Validators.required],
-        endDate: [null, Validators.required],
-        endTime: [null, Validators.required],
+        endDate: [null],
+        endTime: [null],
     })
 
     constructor(private fb: FormBuilder, public dtt: DatetimeToolsService, public uu: UnitUtilsService) {
@@ -101,6 +102,14 @@ export class SleepFormComponent implements OnInit, OnChanges {
     }
 
     ngOnInit() {
+        this.sleepForm.valueChanges.subscribe(data => {
+            if (data.endTime && ! data.endDate) {
+                this.sleepForm.setValue({
+                    ...this.sleepForm.value,
+                    endDate: new Date()
+                })
+            }
+        })
     }
 
     myOnRemove() {
@@ -109,6 +118,14 @@ export class SleepFormComponent implements OnInit, OnChanges {
 
     myOnOk() {
         return this.ctx.onOk(this.sleepFromForm())
+    }
+
+    setEndNow() {
+        this.sleepForm.setValue({
+            ...this.sleepForm.value,
+            endDate: new Date(),
+            endTime: this.dtt.datetimeToStrTime(new Date())
+        })
     }
 
     private setSleepInForm(sleep: Sleep) {
@@ -123,7 +140,9 @@ export class SleepFormComponent implements OnInit, OnChanges {
     private sleepFromForm(): Sleep {
         const sleep: Sleep = {...this.ctx.entity}
         sleep.startAt = this.dtt.datetimeUIToUtc(this.sleepForm.value.startDate, this.sleepForm.value.startTime)
-        sleep.endAt = this.dtt.datetimeUIToUtc(this.sleepForm.value.endDate, this.sleepForm.value.endTime)
+        if (this.sleepForm.value.endDate && this.sleepForm.value.endTime) {
+            sleep.endAt = this.dtt.datetimeUIToUtc(this.sleepForm.value.endDate, this.sleepForm.value.endTime)
+        }
         sleep.babyId = this.ctx.baby.id
         return sleep
     }

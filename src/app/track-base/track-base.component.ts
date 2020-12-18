@@ -97,6 +97,12 @@ export class TrackBaseComponent implements OnInit, OnDestroy {
     async createEntity(entity) {
         try {
             delete entity.id
+
+            Object.keys(entity).forEach(key => {
+                if (entity[key] === null) {
+                    delete entity[key]
+                }
+            })
             const params = {
                 [this.entitiesName.toLowerCase()]: entity
             }
