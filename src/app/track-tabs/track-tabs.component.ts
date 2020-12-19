@@ -56,4 +56,8 @@ export class TrackTabsComponent implements OnInit {
             id: number = null
         }
     }
+
+    public getEntityStartAtDate(e) {
+        return e.startAt
+    }
 }

@@ -1,11 +1,12 @@
 import {Component, Input, OnInit} from "@angular/core"
 import {ApiService} from "../../api.service"
-import {Baby, Sleep} from "../../../openapi/models"
+import {Baby, Sleep} from "../../../openapi"
 // @ts-ignore
 import Enumerable from "linq"
 // @ts-ignore
-import moment from "moment";
-import {DatetimeToolsService} from "../../datetime-tools.service";
+import moment from "moment"
+import {DatetimeToolsService} from "../../datetime-tools.service"
+import humanizeDuration from "humanize-duration"
 
 
 @Component({
@@ -23,7 +24,11 @@ import {DatetimeToolsService} from "../../datetime-tools.service";
                 </app-analytics-date-range-select>
             </div>
             <div style="display: block">
-                <app-bar-chart [dataSets]="[durationDataSet]" [labels]="durationLabels"></app-bar-chart>
+                <app-bar-chart [dataSets]="[nightSleepDataSet, napDataSet]"
+                               [labels]="durationLabels"
+                               [stacked]="true"
+                               [labelCallback]="labelCallback"
+                ></app-bar-chart>
             </div>
         </div>
     `,
@@ -34,9 +39,10 @@ export class AnalyticsSleepComponent implements OnInit {
 
     public sleeps: Array<Sleep> = []
     private sleepsPerDay: any = {}
-    public durationDataSet: { data: number[]; label: string };
     public dateRangeSelected = 7
-    public durationLabels: Array<string>;
+    public durationLabels: Array<string>
+    public nightSleepDataSet: { data: any; label: string }
+    public napDataSet: { data: any; label: string }
 
     constructor(public apiService: ApiService, public dtt: DatetimeToolsService) {
     }
@@ -61,7 +67,9 @@ export class AnalyticsSleepComponent implements OnInit {
         this.sleeps = await this.apiService.api.getBabySleeps(
             {babyId: this.baby.id, startAt: this.getAnalyticsStartAt()}
         )
-        this.sleeps = Enumerable.from(this.sleeps).where((s) => s.endAt).orderBy((s) => s.start_at).toArray()
+        this.sleeps = Enumerable.from(this.sleeps)
+            .where((s) => s.endAt)
+            .orderBy((s) => s.startAt).toArray()
         this.sleepsPerDay = Enumerable.from(this.sleeps)
             .groupBy(
                 s => (moment(s.startAt).format("MMM DD")),
@@ -78,7 +86,7 @@ export class AnalyticsSleepComponent implements OnInit {
             return moment(sleep.startAt) > moment().subtract(1, "d")
         })
         const sleepsToday = Enumerable.from(this.sleepsPerDay)
-            .firstOrDefault(f => f.key == moment().format("MMM DD"), {entities: []}).entities
+            .firstOrDefault(f => f.key === moment().format("MMM DD"), {entities: []}).entities
 
         const duration24h = Math.round(Enumerable.from(sleeps24h).sum(this.dtt.humanizeDiffMinutes))
         const durationToday = Math.round(Enumerable.from(sleepsToday).sum(this.dtt.humanizeDiffMinutes))
@@ -94,16 +102,35 @@ export class AnalyticsSleepComponent implements OnInit {
     }
 
     private populateDurationChart() {
-        this.durationDataSet = {
-            data: Enumerable.from(this.sleepsPerDay).select(s => {
-                return Enumerable.from(s.sleeps).sum((s: Sleep) => {
-                    return moment.duration(moment(s.endAt).diff(moment(s.startAt))).asMinutes()
+        this.nightSleepDataSet = {
+            data: Enumerable.from(this.sleepsPerDay).select(spd => {
+                return Enumerable.from(spd.sleeps).sum((s: Sleep) => {
+                    const minutes = moment.duration(moment(s.endAt).diff(moment(s.startAt))).asMinutes()
+                    return minutes >= (60 * 5) ? minutes : 0
                 })
             }).toArray(),
-            label: `Sleeping duration per day (min). Avg ${this.summary.avgDurationPerDay.toFixed(2)} min/day`
+            label: `Night sleep`
+        }
+
+        this.napDataSet = {
+            data: Enumerable.from(this.sleepsPerDay).select(spd => {
+                return Enumerable.from(spd.sleeps).sum((s: Sleep) => {
+                    const minutes = moment.duration(moment(s.endAt).diff(moment(s.startAt))).asMinutes()
+                    return minutes < (60 * 5) ? minutes : 0
+                })
+            }).toArray(),
+            label: `Nap sleep`
         }
 
         this.durationLabels = Enumerable.from(this.sleepsPerDay).select(s => s.key).toArray()
+    }
+
+    public labelCallback = (tooltipItem, data) => {
+        const minutest = Math.round(tooltipItem.yLabel)
+        return humanizeDuration(
+            minutest * 60 * 1000,
+            {units: ["h", "m"], maxDecimalPoints: 0},
+        )
     }
 
 
