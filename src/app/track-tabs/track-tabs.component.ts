@@ -1,6 +1,9 @@
 import {Component, Input, OnInit, TemplateRef, ViewChild} from "@angular/core"
-import {Baby, Growth, GrowthTypes, Pee, Poop, Sleep} from "../../openapi/models"
+import {Baby, Growth, GrowthTypes, Pee, Poop, Sleep} from "../../openapi"
 import {Metric} from "../models"
+import {DatetimeToolsService} from "../datetime-tools.service"
+
+type PeePoop = Pee | Poop
 
 @Component({
     selector: "app-track-tabs",
@@ -13,10 +16,9 @@ export class TrackTabsComponent implements OnInit {
     @ViewChild("loading")
     private defaultTabButtonsTpl: TemplateRef<any>
 
-    tabLoadTimes: Date[] = []
     Metric = Metric
 
-    constructor() {
+    constructor(public dtt: DatetimeToolsService) {
     }
 
     ngOnInit() {
@@ -55,6 +57,23 @@ export class TrackTabsComponent implements OnInit {
             babyId: number = baby.id
             id: number = null
         }
+    }
+
+    getSleepListHeader = (sleeps: Sleep[]) => {
+            if (sleeps && sleeps.length > 0) {
+                if (!sleeps[0].endAt) {
+                    return `${this.baby.name} is sleeping`
+                }
+                return `${this.baby.name} woke up ${this.dtt.humanizeDuration(sleeps[0].endAt)} ago`
+            }
+            return "touch the + button add a sleeping record"
+    }
+
+    getPeePoopListHeader = (peePoops: PeePoop[]) => {
+        if (peePoops && peePoops.length > 0) {
+            return `Last ${this.metric} ${this.dtt.humanizeDuration(peePoops[0].at)} ago`
+        }
+        return `touch the + button add a ${this.metric}ing record`
     }
 
     public getEntityStartAtDate(e) {

@@ -1,5 +1,5 @@
 import {Component, Input, OnDestroy, OnInit, TemplateRef} from "@angular/core"
-import {Baby} from "../../openapi/models"
+import {Baby} from "../../openapi"
 import {FormBuilder} from "@angular/forms"
 import {ApiService} from "../api.service"
 import {MatDialog} from "@angular/material/dialog"
@@ -35,6 +35,8 @@ export class TrackBaseComponent implements OnInit, OnDestroy {
     }
 
     @Input() getEntityStartDate: (e) => Date = (e) => (e.at)
+
+    @Input() getListHeader: (e) => string = (e) => null
 
     async ngOnInit() {
         this.formTplContext = {

@@ -4,6 +4,7 @@
           infiniteScrollContainer=".mat-tab-body-content"
           [fromRoot]="true"
           (scrolled)="onScroll()">
+  <div *ngIf="getListHeader(entities)" class="mat-body-strong last-list-header">{{getListHeader(entities)}}</div>
   <div *ngFor="let entity of entities;let i=index;">
     <div *ngIf="i === 0 || this.dtt.humanizeDate(getEntityStartDate(entity)) !==  this.dtt.humanizeDate(getEntityStartDate(entities[i - 1]))"
          class="date-group"
